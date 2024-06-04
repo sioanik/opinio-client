@@ -5,43 +5,136 @@ import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useAxiosCommon from '../../hooks/useAxiosCommon';
+import axios from 'axios';
 
 const Register = () => {
 
     const [showPass, setShowPass] = useState(false)
 
+    const axiosCommon = useAxiosCommon();
 
-    const {createUser, updateUserProfile, user, googleLogin, setUser} = useAuth()
+
+    const { createUser, updateUserProfile, user, googleLogin, loading, setLoading, setUser } = useAuth()
 
     const location = useLocation()
     const navigate = useNavigate()
 
     const {
         register,
-        handleSubmit,
+        handleSubmit, reset,
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data)
+        const name = data.name
+        const photo = data.photo
 
         createUser(data.email, data.password)
             .then(result => {
-
                 toast("Successfully registered")
 
-                updateUserProfile(data.name, data.image)
+                updateUserProfile(name, photo)
+                    // .then(() => {
+                    //     navigate('/')
+                    // })
                     .then(() => {
-                        navigate('/')
+                        // create user entry in the database
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email,
+                            image: result.user?.photoURL,
+                            role: 'User',
+                            status: 'Bronze',
+                        }
+                        axiosCommon.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user added to the database')
+                                    reset();
+                                    navigate('/');
+                                }
+                            })
+
+                        // using put
+                        // const currentUser = {
+                        //     name: data.name,
+                        //     email: data.email,
+                        //     role: 'User',
+                        //     status: 'Bronze',
+                        // }
+                        // const { data } = axios.put(
+                        //     `${import.meta.env.VITE_API_URL}/user`,
+                        //     currentUser
+                        // )
+                        // navigate('/');
+
+
                     })
+                // .catch(error => console.log(error))
+
+
+
+
             })
+
+
+
+        // try {
+        //     // setLoading(true)
+        //     //2. User Registration
+        //     const result = await createUser(data.email, data.password)
+        //     // console.log(result)
+
+        //     // 3. Save username and photo in firebase
+        //     await updateUserProfile(data.name, data.photo)
+        //     // navigate('/')
+        //     toast("Successfully registered")
+        // } catch (err) {
+        //     console.log(err)
+        //     toast(err.message)
+        // }
+
+
+
     }
 
 
     const handleGoogleLogin = () => {
         googleLogin()
-        // .then(result => setUser(result.user))
-        toast("Logging in");
+            // .then(result => setUser(result.user))
+            .then(result => {
+                console.log(result.user);
+                toast("Logging in");
+                // post new user using post 
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName,
+                    image: result.user?.photoURL,
+                    role: 'User',
+                    status: 'Bronze',
+                }
+                axiosCommon.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        navigate('/');
+                    })
+
+                // using put 
+                // const currentUser = {
+                //     name: result.user?.displayName,
+                //     email: result.user?.email,
+                //     role: 'User',
+                //     status: 'Bronze',
+                // }
+                // const { data } = axios.put(
+                //     `${import.meta.env.VITE_API_URL}/user`,
+                //     currentUser
+                // )
+                // navigate('/');
+
+            })
     }
 
     useEffect(() => {
@@ -75,7 +168,7 @@ const Register = () => {
                             </svg>
                         </div>
 
-                        <span className="w-5/6 px-4 py-3 font-bold text-center">Sign up with Google</span>
+                        <span className="w-5/6 px-4 py-3 font-bold text-center">Sign in with Google</span>
                     </button>
 
                     <div className="flex items-center justify-between mt-4">
@@ -92,9 +185,9 @@ const Register = () => {
 
 
                             <div className="mt-4">
-                                <label className="block mb-2 text-sm font-medium text-gray-600" htmlFor="LoggingEmailAddress">Name</label>
-                                <input {...register("name", { required: true })} name="name"  className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300" type="text" />
-                                {errors.Name && <span>This field is required</span>}
+                                <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Name</label>
+                                <input {...register("name", { required: true })} name="name" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="text" />
+                                {errors.name && <span>This field is required</span>}
                             </div>
                             <div className="mt-4">
                                 <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Email Address</label>
@@ -103,8 +196,8 @@ const Register = () => {
                             </div>
 
                             <div className="mt-4">
-                                <label className="block mb-2 text-sm font-medium text-gray-600 " htmlFor="LoggingEmailAddress">Photo</label>
-                                <input {...register("photo", { required: true })} name="photo"  className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg   focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300" type="url" />
+                                <label className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="LoggingEmailAddress">Photo</label>
+                                <input {...register("photo", { required: true })} name="photo" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="url" />
                                 {errors.photo && <span>This field is required</span>}
                             </div>
 
@@ -115,12 +208,12 @@ const Register = () => {
 
                                 </div>
 
-                                <input {...register("password", { required: true, minLength: 6 })} type={showPass ? "text" : "password"}name="password" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300" />
+                                <input {...register("password", { required: true, minLength: 6 })} type={showPass ? "text" : "password"} name="password" className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" />
 
                                 <span className="absolute top-10 text-xl right-5" onClick={() => setShowPass(!showPass)}>
-                                        {
-                                            showPass ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
-                                        }</span>
+                                    {
+                                        showPass ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>
+                                    }</span>
 
                                 {errors.password?.type === "required" && (
                                     <p role="alert">Password is required</p>
@@ -133,7 +226,7 @@ const Register = () => {
 
 
 
-                
+
                             {/* <div className="text-red-700">
                                 {error && <p className="text-red-700">error!</p>}
                             </div> */}

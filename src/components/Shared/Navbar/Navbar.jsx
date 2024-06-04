@@ -1,12 +1,13 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Tooltip } from 'react-tooltip'
 import useAuth from "../../../hooks/useAuth";
+import { RxAvatar } from "react-icons/rx";
+
 
 
 const Navbar = () => {
     const { logOut, user } = useAuth()
-
+    // console.log(user);
     const [theme, setTheme] = useState('light')
 
     useEffect(() => {
@@ -31,7 +32,13 @@ const Navbar = () => {
 
     const links = <>
         <li><NavLink to={'/'} >Home</NavLink></li>
-        
+
+    </>
+    const links2 = <>
+        <li className="text-xl mb-2">{user?.displayName}</li>
+        <li className="mb-2 btn btn-sm btn-neutral"><Link to={'/dashboard'} >Dashboard</Link></li>
+        <li><button onClick={() => logOut()} className='btn btn-sm btn-neutral'>Logout</button></li>
+
     </>
 
     return (
@@ -56,9 +63,7 @@ const Navbar = () => {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 gap-4">
 
-
                         {links}
-
 
                     </ul>
                 </div>
@@ -68,19 +73,37 @@ const Navbar = () => {
                     </ul>
                     <div>
                         {user ?
-                            <div className='flex justify-center items-center gap-5'>
-                                <div className="text-black avatar tooltip tooltip-bottom">
-                                    <div data-tooltip-id="my-tooltip" data-tooltip-content={user?.displayName} className="w-12 rounded-full">
-                                        <img referrerPolicy="no-referrer" src={user?.photoURL} />
-                                        <Tooltip id="my-tooltip" />
-                                    </div>
+                            // <div className='flex justify-center items-center gap-5'>
+                            //     <div className="text-black avatar">
+                            //         <div className="w-12 rounded-full">
+                            //             <img referrerPolicy="no-referrer" src={user?.photoURL} />
+                            //         </div>
 
 
+                            //     </div>
+
+                            //     <button onClick={() => logOut()} className='btn btn-sm btn-neutral'>Logout</button>
+
+                            // </div> 
+                            <div className="dropdown">
+                                <div tabIndex={0} role="button" className="">
+
+                                {
+                                    user?.photoURL ?
+                                    <img className="object-cover mr-3 w-12 h-12 rounded-full" referrerPolicy="no-referrer" src={user?.photoURL} />
+                                    :
+                                    <p className="text-4xl"><RxAvatar /></p>
+                                }
+                                
                                 </div>
 
-                                <button onClick={() => logOut()} className='btn btn-sm btn-neutral'>Logout</button>
+                                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-box w-28">
 
-                            </div> :
+                                    {links2}
+
+                                </ul>
+                            </div>
+                            :
 
                             <div className="flex gap-2">
                                 <button className='btn btn-xs h-9 btn-neutral'>

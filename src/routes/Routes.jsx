@@ -4,6 +4,16 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Dashboard from "../layouts/Dashboard";
+import Profile from "../pages/Dashboard/Common/Profile/Profile";
+import AddPost from "../pages/Dashboard/User/AddPost/AddPost";
+import MyPosts from "../pages/Dashboard/User/MyPosts/MyPosts";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers/ManageUsers";
+import Activities from "../pages/Dashboard/Admin/Activities/Activities";
+import MakeAnnouncement from "../pages/Dashboard/Admin/MakeAnnouncement/MakeAnnouncement";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
 
 export const router = createBrowserRouter([
     {
@@ -16,6 +26,68 @@ export const router = createBrowserRouter([
                 element: <Home></Home>,
             },
         ],
+    },
+    {
+        path: '/dashboard',
+        element:
+            (<PrivateRoute>
+                <Dashboard></Dashboard>
+            </PrivateRoute>),
+        errorElement: <ErrorPage></ErrorPage>,
+        children: [
+            {
+                path: 'profile',
+                element:
+                    (<PrivateRoute>
+                        <Profile></Profile>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'add-post',
+                element: (
+                    <PrivateRoute>
+                        <UserRoute>
+                            <AddPost></AddPost>
+                        </UserRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'my-posts',
+                element:
+                    (<PrivateRoute>
+                        <UserRoute>
+                            <MyPosts></MyPosts>
+                        </UserRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'manage-users',
+                element:
+                    (<PrivateRoute>
+                        <AdminRoute>
+                            <ManageUsers></ManageUsers>
+                        </AdminRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'activities',
+                element:
+                    (<PrivateRoute>
+                        <AdminRoute>
+                            <Activities></Activities>
+                        </AdminRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'make-announcement',
+                element:
+                    (<PrivateRoute>
+                        <AdminRoute>
+                            <MakeAnnouncement></MakeAnnouncement>
+                        </AdminRoute>
+                    </PrivateRoute>)
+            },
+        ]
     },
     {
         path: '/login',
