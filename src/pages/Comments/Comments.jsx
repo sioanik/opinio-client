@@ -26,16 +26,18 @@ Modal.setAppElement('#root')
 const Comments = () => {
 
     const [feedback, setFeedback] = useState('')
-    const [buttonDisabled, setButtonDisabled] = useState('ture')
+    // const [buttonDisabled, setButtonDisabled] = useState('ture')
+    const [disabledButtons, setDisabledButtons] = useState({});
 
-
-    const handleFeedbackSelect = (e) => {
-        const value = e.target.value
+    const handleFeedbackSelect = (idx, e) => {
+        const value = e.target.value;
+        setSelectedValues(prevSelectedValues => ({
+            ...prevSelectedValues,
+            [idx]: value,
+        }));
         setFeedback(value)
-        if (value) {
-            setButtonDisabled(false)
-        }
     }
+
 
 
 
@@ -59,10 +61,11 @@ const Comments = () => {
 
     const feedbackObj = { feedback }
 
-    const handleReport = (id) => {
+    const handleReport = (id, idx) => {
         // console.log(feedback);
         axiosCommon.patch(`/comments/${id}`, feedbackObj)
             .then(res => {
+
                 console.log(res.data)
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({
@@ -74,8 +77,12 @@ const Comments = () => {
                     });
                 }
             })
+        setDisabledButtons(prevDisabledButtons => ({
+            ...prevDisabledButtons,
+            [idx]: true,
+        }));
+        // setButtonDisabled('ture')
 
-        setButtonDisabled('ture')
 
     }
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -93,6 +100,11 @@ const Comments = () => {
     function closeModal() {
         setIsOpen(false);
     }
+
+    const [selectedValues, setSelectedValues] = useState({});
+
+
+
 
 
     return (
@@ -169,7 +181,11 @@ const Comments = () => {
                                                     <div className="label">
                                                         <span className="label-text"></span>
                                                     </div>
-                                                    <select onChange={handleFeedbackSelect} className="input input-bordered w-full max-w-xs " name="" id="tag">
+                                                    <select
+                                                        // onChange={handleFeedbackSelect} 
+                                                        onChange={(event) => handleFeedbackSelect(idx, event)}
+
+                                                        className="input input-bordered w-full max-w-xs " name="" id="tag">
                                                         <option value="">Select</option>
 
                                                         <option value="spam">Spam </option>
@@ -186,9 +202,10 @@ const Comments = () => {
                                         </th>
                                         <th>
                                             <button
-                                                onClick={() => { handleReport(item._id) }}
-                                                disabled={buttonDisabled}
-                                                className="btn btn-neutral my-5 lg:my-0  ">Report</button>
+                                                onClick={() => { handleReport(item._id, idx) }}
+                                                // disabled={buttonDisabled}
+                                                disabled={!selectedValues[idx] || disabledButtons[idx]}
+                                                className="btn btn-neutral my-5 lg:my-0">Report</button>
                                         </th>
                                     </tr>
                                 </tbody>
