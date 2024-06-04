@@ -90,7 +90,7 @@ const MyPosts = () => {
                                         </td>
 
                                         <th>
-                                            <Link to={`/update-book/${item._id}`}>
+                                            <Link to={`/comments/${item._id}`}>
                                                 <button className="btn btn-neutral my-5 lg:my-0  ">Comment</button>
                                             </Link>
                                         </th>

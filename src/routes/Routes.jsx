@@ -14,6 +14,7 @@ import MakeAnnouncement from "../pages/Dashboard/Admin/MakeAnnouncement/MakeAnno
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
+import Comments from "../pages/Comments/Comments";
 
 export const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>,
+            },
+            {
+                path: '/comments/:id',
+                element: <Comments></Comments>,
             },
         ],
     },
