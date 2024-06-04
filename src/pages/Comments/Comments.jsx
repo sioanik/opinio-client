@@ -2,6 +2,25 @@ import { useParams } from "react-router-dom";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import Swal from "sweetalert2";
+
+import Modal from 'react-modal';
+import ReadMoreModal from "../../components/Comments/ReadMoreModal";
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
+
+Modal.setAppElement('#root')
+
+
 
 
 const Comments = () => {
@@ -9,17 +28,16 @@ const Comments = () => {
     const [feedback, setFeedback] = useState('')
     const [buttonDisabled, setButtonDisabled] = useState('ture')
 
-    const handleFeedbackSelect = (e) =>{
+
+    const handleFeedbackSelect = (e) => {
         const value = e.target.value
         setFeedback(value)
-        if(value){
+        if (value) {
             setButtonDisabled(false)
         }
     }
 
-    const handleReport = () => {
-        setButtonDisabled('ture')
-    }
+
 
 
     const { id } = useParams()
@@ -38,6 +56,43 @@ const Comments = () => {
             return data
         },
     })
+
+    const feedbackObj = { feedback }
+
+    const handleReport = (id) => {
+        // console.log(feedback);
+        axiosCommon.patch(`/comments/${id}`, feedbackObj)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `Reported to Admin!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+
+        setButtonDisabled('ture')
+
+    }
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        // subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
 
     return (
@@ -75,7 +130,36 @@ const Comments = () => {
                                             {item.email}
                                         </td>
                                         <td>
-                                            {item.comment}
+                                            {/* {item.comment} */}
+
+                                            {
+                                                item.comment.length <= 20
+                                                    ?
+                                                    <div>
+                                                        <span>{item.comment}</span>
+                                                    </div>
+                                                    :
+                                                    <div>{item.comment.substring(0, 20)}...
+                                                        <button
+                                                            onClick={openModal}
+                                                            className="text-blue-500 hover:underline ml-1"
+                                                        // onClick={handleReadMoreClick}
+                                                        >
+                                                            Read More
+                                                        </button>
+                                                        <Modal
+                                                            isOpen={modalIsOpen}
+                                                            onAfterOpen={afterOpenModal}
+                                                            onRequestClose={closeModal}
+                                                            style={customStyles}
+                                                            contentLabel="Example Modal"
+                                                        >
+                                                            <ReadMoreModal text={item.comment} ></ReadMoreModal>
+                                                            {/* <ModalBody book={book} id={id}></ModalBody> */}
+                                                        </Modal>
+                                                    </div>
+                                            }
+
                                         </td>
 
                                         <th>
@@ -102,8 +186,7 @@ const Comments = () => {
                                         </th>
                                         <th>
                                             <button
-        
-                                                onClick={handleReport} 
+                                                onClick={() => { handleReport(item._id) }}
                                                 disabled={buttonDisabled}
                                                 className="btn btn-neutral my-5 lg:my-0  ">Report</button>
                                         </th>
