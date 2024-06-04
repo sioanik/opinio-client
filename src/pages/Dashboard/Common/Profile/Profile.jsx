@@ -23,13 +23,29 @@ const Profile = () => {
                     <p className="text-white text-xl"><LuBadgeInfo /></p>
                     <h1 className="mx-3 text-lg font-semibold text-white">{role.status}</h1>
                 </div>
-                <div className="px-6 py-4">
+
+                {
+                !!role.warning &&
+                    <div className="border-red-700 p-4 my-2 rounded-xl  border-2 bg-red-500">
+                        <h1 className="text-xl text-white font-semibold text-gray-800 dark:text-white">
+                            {role.warning}
+                        </h1>
+                    </div>
+                    // :
+                    // <div>
+                    //     <p>No strikes found!</p>
+                    // </div>
+
+                }
+
+                <div className="px-6 py-2">
+
                     <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
                         {user.displayName} <span>({role.role})</span>
                     </h1>
-                    
+
                     <p className="py-2 text-gray-700 dark:text-gray-400">
-                       ID- {user.uid}
+                        ID- {user.uid}
                     </p>
                     <p className="py-2 text-gray-700 dark:text-gray-400">
                         {user.email}
@@ -51,7 +67,7 @@ const Profile = () => {
                         </svg>
                         <h1 className="px-2 text-sm">Meraki UI</h1>
                     </div> */}
-                    
+
                 </div>
             </div>
         </div>

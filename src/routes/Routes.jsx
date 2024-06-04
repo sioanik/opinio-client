@@ -9,12 +9,12 @@ import Profile from "../pages/Dashboard/Common/Profile/Profile";
 import AddPost from "../pages/Dashboard/User/AddPost/AddPost";
 import MyPosts from "../pages/Dashboard/User/MyPosts/MyPosts";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers/ManageUsers";
-import Activities from "../pages/Dashboard/Admin/Activities/Activities";
 import MakeAnnouncement from "../pages/Dashboard/Admin/MakeAnnouncement/MakeAnnouncement";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import Comments from "../pages/Comments/Comments";
+import ReportedComments from "../pages/Dashboard/Admin/ReportedComments/ReportedComments";
 
 export const router = createBrowserRouter([
     {
@@ -79,7 +79,7 @@ export const router = createBrowserRouter([
                 element:
                     (<PrivateRoute>
                         <AdminRoute>
-                            <Activities></Activities>
+                            <ReportedComments></ReportedComments>
                         </AdminRoute>
                     </PrivateRoute>)
             },
