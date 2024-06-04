@@ -79,7 +79,7 @@ const AddPost = () => {
                                 <div>
                                     <label className="form-control w-full max-w-xs">
                                         <div className="label">
-                                            <span className="label-text">User Name</span>
+                                            <span className="label-text">Author Name</span>
                                         </div>
                                         <input type="text" name="name" placeholder="Author Name" defaultValue={user.displayName} className="input input-bordered w-full max-w-xs" disabled />
 
@@ -88,7 +88,7 @@ const AddPost = () => {
                                 <div>
                                     <label className="form-control w-full max-w-xs">
                                         <div className="label">
-                                            <span className="label-text">User Email</span>
+                                            <span className="label-text">Author Email</span>
                                         </div>
                                         <input type="email" name="useremail" placeholder="User Email" defaultValue={user.email} className="input input-bordered w-full max-w-xs" disabled />
 

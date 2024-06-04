@@ -75,7 +75,7 @@ export const router = createBrowserRouter([
                     </PrivateRoute>)
             },
             {
-                path: 'activities',
+                path: 'reported-comments',
                 element:
                     (<PrivateRoute>
                         <AdminRoute>
