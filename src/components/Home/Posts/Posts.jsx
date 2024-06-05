@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../../hooks/useAxiosCommon";
+import PostsCard from "./PostsCard";
 
 const Posts = ({ searchValue, searchedPosts }) => {
-    console.log(!!searchValue);
+    // console.log(!!searchValue);
 
     const axiosCommon = useAxiosCommon()
 
@@ -14,14 +15,13 @@ const Posts = ({ searchValue, searchedPosts }) => {
         queryKey: ['posts'],
         queryFn: async () => {
             const { data } = await axiosCommon.get('/allposts')
-            console.log(data);
+            // console.log(data);
             return data
         },
     })
 
     return (
         <div>
-            <p>posts</p>
             <div>
                 {
                     searchValue ?
@@ -29,7 +29,7 @@ const Posts = ({ searchValue, searchedPosts }) => {
                             {
                                 searchedPosts.map((item, idx) =>
                                     <div key={idx}>
-                                        <p>{item.post_title}</p>
+                                        <PostsCard item={item}></PostsCard>
                                     </div>
                                 )
                             }
@@ -39,7 +39,7 @@ const Posts = ({ searchValue, searchedPosts }) => {
                             {
                                 allposts.map((item, idx) =>
                                     <div key={idx}>
-                                        <p>{item.post_title}</p>
+                                        <PostsCard item={item}></PostsCard>
                                     </div>
                                 )
                             }

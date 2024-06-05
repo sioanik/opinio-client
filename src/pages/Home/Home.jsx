@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Banner from "../../components/Home/Banner/Banner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Posts from "../../components/Home/Posts/Posts";
+import Tags from "../../components/Home/Tags/Tags";
 
 
 const Home = () => {
@@ -13,7 +14,7 @@ const Home = () => {
     const axiosSecure = useAxiosSecure()
 
     useEffect(() => {
-        axiosSecure(`/tags?search=${searchValue}`)
+        axiosSecure(`/tag-posts?search=${searchValue}`)
             .then(res => setPosts(res.data))
 
     }, [searchValue])
@@ -21,16 +22,20 @@ const Home = () => {
     // console.log(posts);
 
 
-    const receiveStateValue = (searchValue) =>{
+    const handleSearchValue = (searchValue) =>{
         setSearchValue(searchValue)
     }
 
-console.log(searchValue);
+    const handleTagClicked = (tagClicked) =>{
+        setSearchValue(tagClicked)
+    }
+// console.log(searchValue);
 
 
     return (
         <div>
-            <Banner searchStateValue={receiveStateValue}></Banner>
+            <Banner searchValue={handleSearchValue}></Banner>
+            <Tags tagClicked={handleTagClicked}></Tags>
             <Posts searchValue={searchValue} searchedPosts={posts}></Posts>
         </div>
     );

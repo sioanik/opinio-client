@@ -3,7 +3,7 @@ import bannerimg from '../../../assets/images/nomadnestbannerimg.jpg'
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 
-const Banner = ({searchStateValue}) => {
+const Banner = ({searchValue}) => {
 
     // const [search, setSearch] = useState('')
 
@@ -11,7 +11,7 @@ const Banner = ({searchStateValue}) => {
         e.preventDefault()
         const searchText = e.target.search.value
         // setSearch(searchText)
-        searchStateValue(searchText)
+        searchValue(searchText)
 
 
     }

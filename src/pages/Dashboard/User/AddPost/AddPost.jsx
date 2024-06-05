@@ -1,7 +1,25 @@
 import Swal from "sweetalert2";
 import useAuth from "../../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosCommon from "../../../../hooks/useAxiosCommon";
+import { useState } from "react";
 
 const AddPost = () => {
+
+    const axiosCommon = useAxiosCommon()
+
+    const {
+        data: tags = [],
+        isLoading,
+        refetch,
+    } = useQuery({
+        queryKey: ['tags'],
+        queryFn: async () => {
+            const { data } = await axiosCommon.get('/tags')
+            // console.log(data);
+            return data
+        },
+    })
 
     const { user } = useAuth()
     // console.log(user.photoURL);
@@ -11,6 +29,18 @@ const AddPost = () => {
     const author_image = user.photoURL
     const upvote = 0
     const downvote = 0
+    const post_time = new Date();
+
+    const [selectedTag, setSelectedTag] = useState('');
+
+    const handleSelectedTag = (e) => {
+        const selectedIndex = e.target.value;
+        setSelectedTag(selectedIndex);
+
+        // setTag(e.target.value);
+    };
+
+    console.log(selectedTag);
 
     const handleAddPost = (e) => {
         e.preventDefault()
@@ -19,13 +49,13 @@ const AddPost = () => {
         const post_title = form.post_title.value
         const post_description = form.post_description.value
 
-        const tag_Field = document.getElementById('tag')
-        const tag = tag_Field.value
+        // const tag_Field = document.getElementById('tag')
+        // const tag = tag_Field.value
 
-        const newPost = { author_name, author_email, author_image, post_title, post_description, tag, upvote, downvote }
-        console.log(newPost);
+        const newPost = { author_name, author_email, author_image, post_title, post_description, selectedTag, upvote, downvote, post_time }
+        console.table(newPost);
 
-
+        
         fetch(`${import.meta.env.VITE_API_URL}/posts`, {
             credentials: 'include',
             method: "POST",
@@ -53,8 +83,12 @@ const AddPost = () => {
                     })
                 }
             })
-
     }
+
+
+    // console.log(tags);
+
+
 
 
     return (
@@ -113,18 +147,18 @@ const AddPost = () => {
                                     <div className="label">
                                         <span className="label-text">Tag Name</span>
                                     </div>
-                                    <select className="input input-bordered w-full max-w-xs" name="" id="tag">
-                                        <option value="">Select</option>
+                                    <select
+                                        value={selectedTag}
+                                        id="tag"
+                                        onChange={handleSelectedTag}
+                                        className="input input-bordered w-full max-w-xs" name="">
+                                        
+                                        {
+                                            tags.map((item, idx) => (
+                                                (<option key={idx} value={item.tag}>{item.tag}</option>)
+                                            ))
+                                        }
 
-                                        <option value="destination">Destination</option>
-
-                                        <option value="experience">Experience</option>
-
-                                        <option value="budget">Budget</option>
-
-                                        <option value="hotel">Hotel</option>
-
-                                        <option value="transport">Transport</option>
 
                                     </select>
 
@@ -147,7 +181,7 @@ const AddPost = () => {
 
 
                         <div className="flex justify-center">
-                            <input className="btn  btn-neutral mt-8" type="submit" value="Add Book" />
+                            <input className="btn  btn-neutral mt-8" type="submit" value="Add Post" />
                         </div>
                     </form>
                 </div>
