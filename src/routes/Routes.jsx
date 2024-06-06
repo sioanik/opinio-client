@@ -15,6 +15,7 @@ import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import Comments from "../pages/Comments/Comments";
 import ReportedComments from "../pages/Dashboard/Admin/ReportedComments/ReportedComments";
+import PostDetails from "../pages/PostDetails/PostDetails";
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
             {
                 path: '/comments/:id',
                 element: <Comments></Comments>,
+            },
+            {
+                path: '/post/:id',
+                element: <PostDetails></PostDetails>,
             },
         ],
     },

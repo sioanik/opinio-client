@@ -3,6 +3,10 @@ import Banner from "../../components/Home/Banner/Banner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Posts from "../../components/Home/Posts/Posts";
 import Tags from "../../components/Home/Tags/Tags";
+import Announcements from "../../components/Home/Announcements/Announcements";
+import useAxiosCommon from "../../hooks/useAxiosCommon";
+import { useQuery } from "@tanstack/react-query";
+import useAnnouncements from "../../hooks/useAnnouncements";
 
 
 const Home = () => {
@@ -11,10 +15,10 @@ const Home = () => {
 
     const [posts, setPosts] = useState([])
 
-    const axiosSecure = useAxiosSecure()
+    const axiosCommon = useAxiosCommon()
 
     useEffect(() => {
-        axiosSecure(`/tag-posts?search=${searchValue}`)
+        axiosCommon(`/tag-posts?search=${searchValue}`)
             .then(res => setPosts(res.data))
 
     }, [searchValue])
@@ -29,14 +33,36 @@ const Home = () => {
     const handleTagClicked = (tagClicked) =>{
         setSearchValue(tagClicked)
     }
-// console.log(searchValue);
 
+
+    // announcements 
+    // const axiosCommon = useAxiosCommon()
+
+    // const {
+    //     data: ann = [],
+    //     isLoading,
+    //     refetch,
+    // } = useQuery({
+    //     queryKey: ['announcements'],
+    //     queryFn: async () => {
+    //         const { data } = await axiosCommon.get('/announcements')
+    //         // console.log(data);
+    //         return data
+    //     },
+    // })
+
+    const [ann] = useAnnouncements()
+
+console.log(ann.length);
 
     return (
         <div>
             <Banner searchValue={handleSearchValue}></Banner>
             <Tags tagClicked={handleTagClicked}></Tags>
             <Posts searchValue={searchValue} searchedPosts={posts}></Posts>
+            { ann.length > 0 &&
+                <Announcements ann={ann}></Announcements>
+            }
         </div>
     );
 };

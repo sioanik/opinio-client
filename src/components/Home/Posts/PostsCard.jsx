@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 const PostsCard = ({item}) => {
     // console.log(item);
@@ -20,7 +21,8 @@ const PostsCard = ({item}) => {
             </div>
 
             <div className="flex items-center justify-between mt-4">
-                <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">Read more</a>
+                {/* <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">Read more</a> */}
+                <Link to={`/post/${item._id}`}><button className="btn btn-neutral">View Post</button></Link>
 
                 <div className="flex items-center">
                     <img className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block" src={item.author_image} alt="avatar" />

@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { RxAvatar } from "react-icons/rx";
+import { HiSpeakerphone } from "react-icons/hi";
+import useAnnouncements from "../../../hooks/useAnnouncements";
+
 
 
 
@@ -41,6 +44,8 @@ const Navbar = () => {
 
     </>
 
+const [ann] = useAnnouncements()
+
     return (
         <div>
             <div className="navbar w-[90%] mx-auto bg-base-100 my-6">
@@ -68,9 +73,16 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end flex items-center">
-                    <ul className="menu flex justify-center menu-horizontal px-1">
+                    {/* <ul className="menu flex justify-center menu-horizontal px-1">
 
-                    </ul>
+                    </ul> */}
+                    <div className="mr-6 flex items-center gap-2">
+                        <p className="text-2xl"><HiSpeakerphone /></p>
+                        {
+                            ann.length > 0 &&
+                            <div className="badge badge-neutral">{ann.length}</div>
+                        }
+                    </div>
                     <div>
                         {user ?
                             // <div className='flex justify-center items-center gap-5'>
@@ -88,13 +100,13 @@ const Navbar = () => {
                             <div className="dropdown">
                                 <div tabIndex={0} role="button" className="">
 
-                                {
-                                    user?.photoURL ?
-                                    <img className="object-cover mr-3 w-12 h-12 rounded-full" referrerPolicy="no-referrer" src={user?.photoURL} />
-                                    :
-                                    <p className="text-4xl"><RxAvatar /></p>
-                                }
-                                
+                                    {
+                                        user?.photoURL ?
+                                            <img className="object-cover mr-3 w-12 h-12 rounded-full" referrerPolicy="no-referrer" src={user?.photoURL} />
+                                            :
+                                            <p className="text-4xl"><RxAvatar /></p>
+                                    }
+
                                 </div>
 
                                 <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-box w-28">
