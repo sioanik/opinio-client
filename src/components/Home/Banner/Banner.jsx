@@ -3,7 +3,7 @@ import bannerimg from '../../../assets/images/nomadnestbannerimg.jpg'
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 
-const Banner = ({searchValue}) => {
+const Banner = ({searchValue, setCurrentPage}) => {
 
     // const [search, setSearch] = useState('')
 
@@ -12,6 +12,7 @@ const Banner = ({searchValue}) => {
         const searchText = e.target.search.value
         // setSearch(searchText)
         searchValue(searchText)
+        setCurrentPage(1)
 
 
     }

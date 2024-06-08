@@ -39,12 +39,12 @@ const Navbar = () => {
     </>
     const links2 = <>
         <li className="text-xl mb-2">{user?.displayName}</li>
-        <li className="mb-2 btn btn-sm btn-neutral"><Link to={'/dashboard'} >Dashboard</Link></li>
+        <li className="mb-2 btn btn-sm btn-neutral"><Link to={'dashboard/profile'} >Dashboard</Link></li>
         <li><button onClick={() => logOut()} className='btn btn-sm btn-neutral'>Logout</button></li>
 
     </>
 
-const [ann] = useAnnouncements()
+    const [ann] = useAnnouncements()
 
     return (
         <div>
@@ -76,13 +76,13 @@ const [ann] = useAnnouncements()
                     {/* <ul className="menu flex justify-center menu-horizontal px-1">
 
                     </ul> */}
-                    <div className="mr-6 flex items-center gap-2">
-                        <p className="text-2xl"><HiSpeakerphone /></p>
-                        {
-                            ann.length > 0 &&
+                    {
+                        ann.length > 0 &&
+                        <div className="mr-6 flex items-center gap-2">
+                            <p className="text-2xl"><HiSpeakerphone /></p>
                             <div className="badge badge-neutral">{ann.length}</div>
-                        }
-                    </div>
+                        </div>
+                    }
                     <div>
                         {user ?
                             // <div className='flex justify-center items-center gap-5'>

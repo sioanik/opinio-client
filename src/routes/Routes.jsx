@@ -16,6 +16,8 @@ import UserRoute from "./UserRoute";
 import Comments from "../pages/Comments/Comments";
 import ReportedComments from "../pages/Dashboard/Admin/ReportedComments/ReportedComments";
 import PostDetails from "../pages/PostDetails/PostDetails";
+import Payment from "../components/Dashboard/Payment/Payment";
+import Cart from "../components/Dashboard/Payment/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -67,6 +69,24 @@ export const router = createBrowserRouter([
                     (<PrivateRoute>
                         <UserRoute>
                             <MyPosts></MyPosts>
+                        </UserRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'cart/',
+                element:
+                    (<PrivateRoute>
+                        <UserRoute>
+                           <Cart></Cart>
+                        </UserRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'payment/:fee',
+                element:
+                    (<PrivateRoute>
+                        <UserRoute>
+                            <Payment></Payment>
                         </UserRoute>
                     </PrivateRoute>)
             },

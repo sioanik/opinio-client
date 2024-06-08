@@ -12,6 +12,7 @@ import useAnnouncements from "../../hooks/useAnnouncements";
 const Home = () => {
 
     const [searchValue, setSearchValue] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
 
     const [posts, setPosts] = useState([])
 
@@ -34,7 +35,7 @@ const Home = () => {
         setSearchValue(tagClicked)
     }
 
-
+   
     // announcements 
     // const axiosCommon = useAxiosCommon()
 
@@ -57,9 +58,9 @@ console.log(ann.length);
 
     return (
         <div>
-            <Banner searchValue={handleSearchValue}></Banner>
-            <Tags tagClicked={handleTagClicked}></Tags>
-            <Posts searchValue={searchValue} searchedPosts={posts}></Posts>
+            <Banner setCurrentPage={setCurrentPage} searchValue={handleSearchValue}></Banner>
+            <Tags setCurrentPage={setCurrentPage} tagClicked={handleTagClicked}></Tags>
+            <Posts currentPage={currentPage} setCurrentPage={setCurrentPage} searchValue={searchValue} searchedPosts={posts}></Posts>
             { ann.length > 0 &&
                 <Announcements ann={ann}></Announcements>
             }

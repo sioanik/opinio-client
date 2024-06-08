@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../../hooks/useAxiosCommon";
 
-const Tags = ({tagClicked}) => {
+const Tags = ({tagClicked, setCurrentPage}) => {
 
     const axiosCommon = useAxiosCommon()
 
@@ -20,6 +20,7 @@ const Tags = ({tagClicked}) => {
 
     const handleTagClicked = (tag) =>{
         tagClicked(tag)
+        setCurrentPage(1)
     }
     
     // console.log(tagClicked);
