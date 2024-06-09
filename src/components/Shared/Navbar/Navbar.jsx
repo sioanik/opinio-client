@@ -121,11 +121,11 @@ const Navbar = () => {
                             :
 
                             <div className="flex gap-2">
-                                <button className='btn btn-xs h-9 btn-neutral'>
+                                {/* <button className='btn btn-xs h-9 btn-neutral'>
                                     <Link to={'/register'}>Register</Link>
-                                </button>
+                                </button> */}
                                 <button className='btn btn-xs h-9 btn-neutral'>
-                                    <Link to={'/login'}>Login</Link>
+                                    <Link to={'/login'}>Join Us</Link>
                                 </button>
                             </div>
 
