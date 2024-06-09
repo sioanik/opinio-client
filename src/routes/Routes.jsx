@@ -56,6 +56,13 @@ export const router = createBrowserRouter([
                         <Profile></Profile>
                     </PrivateRoute>)
             },
+            {
+                path: 'payment/:fee',
+                element:
+                    (<PrivateRoute>
+                        <Payment></Payment>
+                    </PrivateRoute>)
+            },
             // {
             //     path: 'user-home',
             //     element: (
@@ -102,15 +109,6 @@ export const router = createBrowserRouter([
                     (<PrivateRoute>
                         <UserRoute>
                             <Cart></Cart>
-                        </UserRoute>
-                    </PrivateRoute>)
-            },
-            {
-                path: 'payment/:fee',
-                element:
-                    (<PrivateRoute>
-                        <UserRoute>
-                            <Payment></Payment>
                         </UserRoute>
                     </PrivateRoute>)
             },

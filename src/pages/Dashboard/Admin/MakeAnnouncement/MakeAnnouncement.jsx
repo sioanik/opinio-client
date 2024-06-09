@@ -8,6 +8,7 @@ const MakeAnnouncement = () => {
     const author_name = user.displayName
     const author_email = user.email
     const author_image = user.photoURL
+    const post_time = new Date()
 
     const handleAddPost = (e) => {
         e.preventDefault()
@@ -17,7 +18,7 @@ const MakeAnnouncement = () => {
         const post_description = form.post_description.value
 
 
-        const newPost = { author_name, author_email, author_image, post_title, post_description }
+        const newPost = { author_name, author_email, author_image, post_title, post_description, post_time }
         // console.log(newPost);
 
 

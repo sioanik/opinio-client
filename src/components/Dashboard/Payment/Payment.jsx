@@ -15,7 +15,22 @@ const Payment = () => {
     return (
         <div className="">
             <SectionTitle
-            title={'Pay With Your Card'}
+                title={'Membership Packages'}
+            ></SectionTitle>
+            <div className="mb-20">
+                <div className="flex justify-between">
+                    <div>
+                        <p className="text-xl font-bold pb-4">Membership Package</p>
+                        <p className="text-xl">Gold</p>
+                    </div>
+                    <div>
+                        <p className="text-xl font-bold pb-4">Fees</p>
+                        <p className="text-xl">$100</p>
+                    </div>
+                </div>
+            </div>
+            <SectionTitle
+                title={'Pay with Card'}
             ></SectionTitle>
             <div className="min-w-96">
                 <Elements stripe={stripePromise}>
