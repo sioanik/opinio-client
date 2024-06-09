@@ -1,33 +1,51 @@
+import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useRole from "../../../../hooks/useRole";
 import { LuBadgeInfo } from "react-icons/lu";
+import ProfilePostCard from "../../../../components/Dashboard/Profile/ProfilePostCard";
 
 
 const Profile = () => {
 
     const { user, loading } = useAuth()
     const [role, isLoading] = useRole()
-    // console.log(role)
+    const axiosSecure = useAxiosSecure()
+    // console.log(user.email);
+
+    const {
+        data: myThreePosts = [],
+        refetch,
+    } = useQuery({
+        queryKey: ['my-three-posts', user.email],
+        queryFn: async () => {
+            const { data } = await axiosSecure.get(`/my-three-posts?email=${user.email}`)
+            // console.log(data);
+            return data
+        },
+    })
+
+    console.log(myThreePosts)
 
     if (isLoading || loading) return <LoadingSpinner></LoadingSpinner>
     return (
-        <div>
+        <div className="w-[90%] mx-auto flex flex-col justify-center items-center">
             <div className="w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
                 <img
                     className="object-cover object-center w-full h-56"
                     src={user.photoURL}
                     alt="avatar"
                 />
-                <div className="flex items-center px-6 py-3 bg-gray-900">
-                    <p className="text-white text-xl"><LuBadgeInfo /></p>
-                    <h1 className="mx-3 text-lg font-semibold text-white">{role.status}</h1>
+                <div className="flex items-center justify-center rounded-br-lg rounded-bl-lg px-6 py-3 bg-[#bb8f4c]">
+                    <p className="text-white text-2xl"><LuBadgeInfo /></p>
+                    <h1 className="mx-3 text-2xl font-semibold text-white">{role.status}</h1>
                 </div>
 
                 {
-                !!role.warning &&
+                    !!role.warning &&
                     <div className="border-red-700 p-4 my-2 rounded-xl  border-2 bg-red-500">
-                        <h1 className="text-xl text-white font-semibold text-gray-800 dark:text-white">
+                        <h1 className="text-xl text-center text-white font-semibold text-gray-800 dark:text-white">
                             {role.warning}
                         </h1>
                     </div>
@@ -40,15 +58,15 @@ const Profile = () => {
 
                 <div className="px-6 py-2">
 
-                    <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
+                    <h1 className="text-xl text-center font-semibold text-gray-800 dark:text-white">
                         {user.displayName} <span>({role.role})</span>
                     </h1>
 
-                    <p className="py-2 text-gray-700 dark:text-gray-400">
-                        ID- {user.uid}
-                    </p>
-                    <p className="py-2 text-gray-700 dark:text-gray-400">
+                    <p className="py-2 text-lg text-center text-gray-700 dark:text-gray-400">
                         {user.email}
+                    </p>
+                    <p className=" pb-2 text-center text-gray-700 dark:text-gray-400">
+                        ID- {user.uid}
                     </p>
                     {/* <div className="flex items-center mt-4 text-gray-700 dark:text-gray-200">
                         <svg
@@ -69,6 +87,12 @@ const Profile = () => {
                     </div> */}
 
                 </div>
+            </div>
+            <div className="w-[80%]">
+                {/* posts  */}
+                {
+                    myThreePosts.map((item, idx) => <ProfilePostCard key={idx} item={item}></ProfilePostCard>)
+                }
             </div>
         </div>
     );

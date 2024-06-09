@@ -1,36 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import useAxiosCommon from "../../../hooks/useAxiosCommon";
-import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "../../Shared/LoadingSpinner";
 
-const PostsCard = ({ item }) => {
-    const navigate = useNavigate()
-    const handleClick = () => {
-        navigate(`/post/${item._id}`)
-    }
-console.log(item._id);
-
-    const axiosCommon = useAxiosCommon()
-
-    const {
-        data: commentsCount = [],
-        isLoading,
-        refetch,
-    } = useQuery({
-        queryKey: ['commentscount', item._id],
-        queryFn: async () => {
-            const { data } = await axiosCommon.get(`/comments/${item._id}`)
-            console.log(data);
-            return data
-        },
-    })
-
-
-
-    console.log(commentsCount.length);
+const ProfilePostCard = ({item}) => {
     return (
-        <div>
-            <div onClick={handleClick} className="my-6 w-full md:w-[650px] lg:w-[800px] px-8 py-4 bg-slate-100 rounded-lg shadow-md dark:bg-gray-800">
+        <div className="">
+            <div className="my-6 w-full px-8 py-4 bg-slate-100 rounded-lg shadow-md dark:bg-gray-800">
                 <div className="flex flex-row-reverse items-center justify-between">
                     <span className="text-sm font-light text-gray-600 dark:text-gray-400">{new Date(item.post_time).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                     <p className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded hover:bg-gray-500">
@@ -43,17 +15,18 @@ console.log(item._id);
                         {item.post_title}
                     </a>
                     <p className="mt-2 text-gray-600 dark:text-gray-300">
-                        {item.post_description.substring(0, 60)}...
+                        {item.post_description}
+                        {/* .substring(0, 60)}... */}
 
                     </p>
                 </div>
 
                 <div className="flex flex-row-reverse items-center justify-between mt-4">
                     {/* <Link to={`/post/${item._id}`}><button className="btn btn-info">View Post</button></Link> */}
-                    <div className=" flex justify-around items-center gap-5">
+                    {/* <div className=" flex justify-around items-center gap-5">
                         <p>{item.upvote + item.upvote} Votes</p>
                         <p>{commentsCount.length} Comments</p>
-                    </div>
+                    </div> */}
 
                     <div className="flex items-center">
                         <img className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block" src={item.author_image} alt="avatar" />
@@ -65,4 +38,4 @@ console.log(item._id);
     );
 };
 
-export default PostsCard;
+export default ProfilePostCard;

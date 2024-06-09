@@ -19,7 +19,7 @@ const Sidebar = () => {
     }
 
     const links2 = <>
-        <li><NavLink to={'profile'}>Profile</NavLink></li>
+        {/* <li><NavLink to={'profile'}>Profile</NavLink></li> */}
         <li><button onClick={signout} className="bg-slate-300">Logout</button> </li>
     </>
 
