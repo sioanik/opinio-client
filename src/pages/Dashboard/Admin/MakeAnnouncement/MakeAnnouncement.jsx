@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import useAuth from "../../../../hooks/useAuth";
+import SectionTitle from "../../../../components/Comments/SectionTitle";
 const MakeAnnouncement = () => {
     const { user } = useAuth()
     // console.log(user.photoURL);
@@ -17,7 +18,7 @@ const MakeAnnouncement = () => {
 
 
         const newPost = { author_name, author_email, author_image, post_title, post_description }
-        console.log(newPost);
+        // console.log(newPost);
 
 
         fetch(`${import.meta.env.VITE_API_URL}/announcements`, {
@@ -54,14 +55,13 @@ const MakeAnnouncement = () => {
 
 
     return (
-        <div>
+        <div className="">
+            <SectionTitle
+                    title={'Make Announcements'}
+                ></SectionTitle>
             <div>
                 <div>
-                    <div className='w-[90%] mx-auto'>
-                        <div className='w-[80%] mx-auto mt-10 py-5 mb-5'>
-                            <p className='text-center pb-4 text-2xl font-semibold'>Make Announcement</p>
-                            {/* <p className='text-center'>Expand your literary universe by adding a new book to your library's collection</p> */}
-                        </div>
+                    <div className=''>
                     </div>
                     <div className="mt-10 px-10 mx-auto">
                         <form onSubmit={handleAddPost}>

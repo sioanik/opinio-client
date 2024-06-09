@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const CheckoutForm = ({ totalPrice }) => {
-    console.log(totalPrice);
+    // console.log(totalPrice);
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('')
     const [transactionId, setTransactionId] = useState('');
@@ -22,7 +22,7 @@ const CheckoutForm = ({ totalPrice }) => {
         if (totalPrice > 0) {
             axiosSecure.post('/create-payment-intent', { price: totalPrice })
                 .then(res => {
-                    console.log(res.data.clientSecret);
+                    // console.log(res.data.clientSecret);
                     setClientSecret(res.data.clientSecret);
                 })
         }
@@ -49,11 +49,11 @@ const CheckoutForm = ({ totalPrice }) => {
         })
 
         if (error) {
-            console.log('payment error', error);
+            // console.log('payment error', error);
             setError(error.message);
         }
         else {
-            console.log('payment method', paymentMethod)
+            // console.log('payment method', paymentMethod)
             setError('');
         }
 
@@ -71,12 +71,12 @@ const CheckoutForm = ({ totalPrice }) => {
         })
 
         if (confirmError) {
-            console.log('confirm error')
+            // console.log('confirm error')
         }
         else {
-            console.log('payment intent', paymentIntent)
+            // console.log('payment intent', paymentIntent)
             if (paymentIntent.status === 'succeeded') {
-                console.log('transaction id', paymentIntent.id);
+                // console.log('transaction id', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
 
                 // save the payment in db
@@ -89,7 +89,7 @@ const CheckoutForm = ({ totalPrice }) => {
                 }
 
                 const res = await axiosSecure.post('/payments', payment);
-                console.log('payment saved', res.data);
+                // console.log('payment saved', res.data);
                 if (res.data?.insertedId) {
                     Swal.fire({
                         position: "top-end",
@@ -100,7 +100,7 @@ const CheckoutForm = ({ totalPrice }) => {
                     });
                     axiosSecure.patch(`/users/make-gold/${user?.email}`)
                         .then(res => {
-                            console.log(res.data)
+                            // console.log(res.data)
 
                         })
                     navigate('/dashboard/profile')

@@ -18,6 +18,8 @@ import ReportedComments from "../pages/Dashboard/Admin/ReportedComments/Reported
 import PostDetails from "../pages/PostDetails/PostDetails";
 import Payment from "../components/Dashboard/Payment/Payment";
 import Cart from "../components/Dashboard/Payment/Cart";
+import UserHome from "../pages/Dashboard/User/UserHome/UserHome";
+import AdminHome from "../pages/Dashboard/Admin/AdminHome/AdminHome";
 
 export const router = createBrowserRouter([
     {
@@ -29,10 +31,10 @@ export const router = createBrowserRouter([
                 path: '/',
                 element: <Home></Home>,
             },
-            {
-                path: '/comments/:id',
-                element: <Comments></Comments>,
-            },
+            // {
+            //     path: '/comments/:id',
+            //     element: <Comments></Comments>,
+            // },
             {
                 path: '/post/:id',
                 element: <PostDetails></PostDetails>,
@@ -54,6 +56,15 @@ export const router = createBrowserRouter([
                         <Profile></Profile>
                     </PrivateRoute>)
             },
+            // {
+            //     path: 'user-home',
+            //     element: (
+            //         <PrivateRoute>
+            //             <UserRoute>
+            //                 <UserHome></UserHome>
+            //             </UserRoute>
+            //         </PrivateRoute>)
+            // },
             {
                 path: 'add-post',
                 element: (
@@ -72,12 +83,25 @@ export const router = createBrowserRouter([
                         </UserRoute>
                     </PrivateRoute>)
             },
+            // {
+            //     path: '/comments/:id',
+            //     element: <Comments></Comments>,
+            // },
+            {
+                path: 'comments/:id',
+                element:
+                    (<PrivateRoute>
+                        <UserRoute>
+                            <Comments></Comments>
+                        </UserRoute>
+                    </PrivateRoute>)
+            },
             {
                 path: 'cart/',
                 element:
                     (<PrivateRoute>
                         <UserRoute>
-                           <Cart></Cart>
+                            <Cart></Cart>
                         </UserRoute>
                     </PrivateRoute>)
             },
@@ -88,6 +112,15 @@ export const router = createBrowserRouter([
                         <UserRoute>
                             <Payment></Payment>
                         </UserRoute>
+                    </PrivateRoute>)
+            },
+            {
+                path: 'admin-home',
+                element:
+                    (<PrivateRoute>
+                        <AdminRoute>
+                            <AdminHome></AdminHome>
+                        </AdminRoute>
                     </PrivateRoute>)
             },
             {

@@ -4,13 +4,15 @@ import useAuth from "../../../hooks/useAuth";
 import { RxAvatar } from "react-icons/rx";
 import { HiSpeakerphone } from "react-icons/hi";
 import useAnnouncements from "../../../hooks/useAnnouncements";
+import useRole from "../../../hooks/useRole";
 
 
 
 
 const Navbar = () => {
+    const [role] = useRole()
     const { logOut, user } = useAuth()
-    // console.log(user);
+    // console.log(role.role);
     const [theme, setTheme] = useState('light')
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const Navbar = () => {
     </>
     const links2 = <>
         <li className="text-xl mb-2">{user?.displayName}</li>
-        <li className="mb-2 btn btn-sm btn-neutral"><Link to={'dashboard/profile'} >Dashboard</Link></li>
+        <li className="mb-2 btn btn-sm btn-neutral"><Link to={role.role=='Admin'?'dashboard/admin-home': 'dashboard/profile' } >Dashboard</Link></li>
         <li><button onClick={() => logOut()} className='btn btn-sm btn-neutral'>Logout</button></li>
 
     </>
@@ -62,7 +64,7 @@ const Navbar = () => {
 
                         </ul>
                     </div>
-                    <a className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text btn btn-ghost text-xl font-bold" href="/">NomadNest</a>
+                    <a className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text btn btn-ghost text-2xl md:text-4xl font-bold" href="/">opinio</a>
 
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -77,7 +79,7 @@ const Navbar = () => {
 
                     </ul> */}
                     {
-                        ann.length > 0 &&
+                        ann.length > 0 && !!user &&
                         <div className="mr-6 flex items-center gap-2">
                             <p className="text-2xl"><HiSpeakerphone /></p>
                             <div className="badge badge-neutral">{ann.length}</div>
@@ -109,7 +111,7 @@ const Navbar = () => {
 
                                 </div>
 
-                                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-box w-28">
+                                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-box w-auto">
 
                                     {links2}
 

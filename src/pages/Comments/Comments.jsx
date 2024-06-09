@@ -54,7 +54,7 @@ const Comments = () => {
         queryKey: ['comments', id],
         queryFn: async () => {
             const { data } = await axiosCommon.get(`/comments/${id}`)
-            console.log(data);
+            // console.log(data);
             return data
         },
     })
@@ -66,7 +66,7 @@ const Comments = () => {
         axiosCommon.patch(`/comments/${id}`, feedbackObj)
             .then(res => {
 
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({
                         position: "top-end",
@@ -138,10 +138,10 @@ const Comments = () => {
                                     {/* row 1 */}
                                     <tr>
 
-                                        <td className="">
+                                        <td className="text-xl py-10">
                                             {item.email}
                                         </td>
-                                        <td>
+                                        <td className="text-xl py-10">
                                             {/* {item.comment} */}
 
                                             {

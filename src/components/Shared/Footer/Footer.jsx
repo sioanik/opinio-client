@@ -10,10 +10,10 @@ const Footer = () => {
                 <hr className="my-10 border-gray-200 dark:border-gray-700" />
                     <div className="flex flex-col items-center text-center">
                         <a href="/">
-                            <p className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text text-xl font-bold">NomadNest</p>
+                            <p className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text text-xl font-bold">opinio</p>
                         </a>
 
-                        <p className="max-w-md mx-auto mt-4 text-gray-500 dark:text-gray-400">Join our community to share your travel experiences and tips!</p>
+                        <p className="max-w-md mx-auto mt-4 text-gray-500 dark:text-gray-400">Connect with us and stay updated on the latest forum news and discussions. Join our community today!</p>
 
                         
                     </div>

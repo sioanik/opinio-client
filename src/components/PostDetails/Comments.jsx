@@ -41,7 +41,7 @@ const Comments = ({id, postTitle}) => {
            await axiosCommon.post('/postComments', commentInfo)
             .then(res => {
                 if (res.data.insertedId) {
-                    console.log('comment added to the database')
+                    // console.log('comment added to the database')
                     reset();
                     Swal.fire({
                         position: "top-end",
@@ -54,7 +54,7 @@ const Comments = ({id, postTitle}) => {
                 }
             })
             .catch(error=>{
-                console.log(error);
+                // console.log(error);
             })
         }
 

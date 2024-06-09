@@ -33,7 +33,7 @@ const Dashboard = () => {
                 <div>
                     <div>
                         {/* <a className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text btn btn-ghost text-xl font-bold lg:hidden" href="/">Open Menu</a> */}
-                        <div className="dropdown ">
+                        <div className="dropdown z-10">
                             <div tabIndex={0} role="button" className="btn btn-ghost m-4 fixed lg:hidden">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                             </div>

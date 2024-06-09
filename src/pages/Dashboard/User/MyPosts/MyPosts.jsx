@@ -3,25 +3,40 @@ import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 
 const MyPosts = () => {
-
     const { user } = useAuth()
-
     const axiosSecure = useAxiosSecure()
+
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [count, setCount] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const {
         data: posts = [],
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['posts', user?.email],
+        queryKey: ['posts', user?.email, axiosSecure, currentPage, itemsPerPage],
         queryFn: async () => {
-            const { data } = await axiosSecure(`/posts/${user?.email}`)
+            const { data } = await axiosSecure(`/posts/${user?.email}?page=${currentPage}&size=${itemsPerPage}`)
             // console.log(data);
             return data
         },
     })
+
+
+    useEffect(() => {
+        const getCount = async () => {
+            const { data } = await axiosSecure(`/my-posts-count?email=${user?.email}`)
+            setCount(data.count)
+            // console.log(data.count);
+        }
+        getCount()
+    }, [axiosSecure])
+
+
 
 
     const handleDeletPost = id => {
@@ -51,6 +66,14 @@ const MyPosts = () => {
     }
 
 
+    const numberOfPages = Math.ceil(count / itemsPerPage)
+    const pages = [...Array(numberOfPages).keys()].map(element => element + 1)
+
+    const handlePaginationButton = value => {
+        // console.log(value)
+        setCurrentPage(value)
+    }
+
     return (
         <div>
             <div className='w-[90%] mx-auto'>
@@ -63,7 +86,7 @@ const MyPosts = () => {
                 {/* table upper part  */}
 
                 <div className="overflow-x-auto">
-                    <table className="table md:table-xs">
+                    <table className="table table-xs md:table-lg">
                         {/* head */}
                         <thead>
                             <tr>
@@ -90,7 +113,7 @@ const MyPosts = () => {
                                         </td>
 
                                         <th>
-                                            <Link to={`/comments/${item._id}`}>
+                                            <Link to={`/dashboard/comments/${item._id}`}>
                                                 <button className="btn btn-neutral my-5 lg:my-0  ">Comment</button>
                                             </Link>
                                         </th>
@@ -108,6 +131,24 @@ const MyPosts = () => {
                     </table>
                 </div>
 
+            </div>
+            {/* pagination  */}
+            <div className='flex justify-center mt-12'>
+
+                {/* Numbers */}
+                {pages.map(btnNum => (
+                    <button
+                        onClick={() => handlePaginationButton(btnNum)}
+                        key={btnNum}
+                        className={`hidden ${currentPage === btnNum ? 'bg-blue-500 text-white' : ''
+                            } px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
+                    >
+                        {btnNum}
+                    </button>
+                ))}
+            </div>
+            <div className="w-full text-gray-500 flex justify-end items-center dark:text-gray-400">
+                <span className=" mr-2 font-medium text-gray-700 dark:text-gray-100">{currentPage * 10 - 9} - {Math.min(currentPage * 10, count)}</span> of {count} records
             </div>
 
         </div>

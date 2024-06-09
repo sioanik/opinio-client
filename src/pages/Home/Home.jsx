@@ -54,7 +54,7 @@ const Home = () => {
 
     const [ann] = useAnnouncements()
 
-console.log(ann.length);
+// console.log(ann.length);
 
     return (
         <div>

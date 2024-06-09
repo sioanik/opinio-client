@@ -27,6 +27,7 @@
     "react-share": "^5.1.0",
     "react-toastify": "^10.0.5",
     "react-tooltip": "^5.26.4",
+    "recharts": "^2.12.7",
     "sort-by": "^1.2.0",
     "sweetalert2": "^11.11.0"
   },

@@ -1,12 +1,11 @@
 import { useForm } from 'react-hook-form';
-import loginimg from '../../../src/assets/images/travel-login-img.jpg'
+import regimg from '../../../src/assets/images/opinio-login-reg.webp'
 import useAuth from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import useAxiosCommon from '../../hooks/useAxiosCommon';
-import axios from 'axios';
 
 const Register = () => {
 
@@ -27,7 +26,7 @@ const Register = () => {
     } = useForm()
 
     const onSubmit = async (data) => {
-        console.log(data)
+        // console.log(data)
         const name = data.name
         const photo = data.photo
 
@@ -51,7 +50,7 @@ const Register = () => {
                         axiosCommon.post('/users', userInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
-                                    console.log('user added to the database')
+                                    // console.log('user added to the database')
                                     reset();
                                     navigate('/');
                                 }
@@ -105,7 +104,7 @@ const Register = () => {
         googleLogin()
             // .then(result => setUser(result.user))
             .then(result => {
-                console.log(result.user);
+                // console.log(result.user);
                 toast("Logging in");
                 // post new user using post 
                 const userInfo = {
@@ -117,7 +116,7 @@ const Register = () => {
                 }
                 axiosCommon.post('/users', userInfo)
                     .then(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
                         navigate('/');
                     })
 
@@ -147,11 +146,11 @@ const Register = () => {
     return (
         <div>
             <div className="flex w-full max-w-sm mx-auto overflow-hidden rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
-                <div className="hidden bg-cover lg:block lg:w-1/2" style={{ backgroundImage: `url(${loginimg})` }}></div>
+                <div className="hidden bg-center bg-cover lg:block lg:w-1/2" style={{ backgroundImage: `url(${regimg})` }}></div>
 
                 <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
                     <div className="flex justify-center mx-auto">
-                        <p className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text text-2xl font-bold">NomadNest</p>
+                        <p className="bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 text-transparent bg-clip-text text-2xl font-bold">opinio</p>
                     </div>
 
                     <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">

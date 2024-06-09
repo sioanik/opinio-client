@@ -1,17 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
 import useAxiosCommon from "../../../hooks/useAxiosCommon";
+import SectionTitle from "../../Comments/SectionTitle";
 import PostsCard from "./PostsCard";
 import { useEffect, useState } from "react";
 
-const Posts = ({ searchValue, searchedPosts, currentPage, setCurrentPage}) => {
+const Posts = ({ searchValue, currentPage, setCurrentPage }) => {
     // New try ---------------------------------------
     const axiosCommon = useAxiosCommon()
-    const [itemsPerPage, setItemsPerPage] = useState(6)
+    const [itemsPerPage, setItemsPerPage] = useState(4)
     const [count, setCount] = useState(0)
     const [posts, setPosts] = useState([])
     // const [currentPage, setCurrentPage] = useState(1)
     const [sort, setSort] = useState(false)
-    console.table(posts);
+    // console.table(posts);
 
 
     useEffect(() => {
@@ -30,11 +30,11 @@ const Posts = ({ searchValue, searchedPosts, currentPage, setCurrentPage}) => {
                 `/posts-count?search=${searchValue}`
             )
             setCount(data.count)
-            console.log(data.count);
+            // console.log(data.count);
         }
         getCount()
     }, [axiosCommon, searchValue])
-    
+
     // old code ------------------------------------
 
     // const {
@@ -67,7 +67,7 @@ const Posts = ({ searchValue, searchedPosts, currentPage, setCurrentPage}) => {
     const handleToggleButton = () => {
         setSort(!sort)
     }
-    console.log(sort);
+    // console.log(sort);
     // old code ------------------------------------
 
 
@@ -75,29 +75,35 @@ const Posts = ({ searchValue, searchedPosts, currentPage, setCurrentPage}) => {
 
     const numberOfPages = Math.ceil(count / itemsPerPage)
     const pages = [...Array(numberOfPages).keys()].map(element => element + 1)
-    console.log(pages);
+    // console.log(pages);
 
     //  handle pagination button
     const handlePaginationButton = value => {
-        console.log(value)
+        // console.log(value)
         setCurrentPage(value)
     }
     return (
-        <div>
+        <div className="w-[90%] mx-auto">
+            <SectionTitle
+                title={'Join the Conversation'}
+                description={'Dive into a variety of discussions covering diverse topics. Join the conversation, share your thoughts, and explore different perspectives from our community'}
+            ></SectionTitle>
 
-            <button onClick={handleToggleButton}>
-                Sort by Popularity
+            <div className="flex justify-end">
+            <button className="btn w-48 btn-neutral" onClick={handleToggleButton}>
+                {!sort ? 'Sort by Popularity' : 'Sort by Date Published'}
             </button>
+            </div>
 
             {/* {!searchValue &&
                 <button onClick={handleToggleButton}>
                     Sort by Popularity
                 </button>
             } */}
-            <div>
+            <div className="flex justify-center">
 
 
-                <div>
+                <div className="">
 
                     {posts.map((item, idx) =>
                         <div key={idx}>
