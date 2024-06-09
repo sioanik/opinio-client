@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 import Modal from 'react-modal';
 import ReadMoreModal from "../../components/Comments/ReadMoreModal";
+import SectionTitle from "../../components/Comments/SectionTitle";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const customStyles = {
     content: {
@@ -20,14 +22,17 @@ const customStyles = {
 
 Modal.setAppElement('#root')
 
-
-
-
 const Comments = () => {
 
     const [feedback, setFeedback] = useState('')
-    // const [buttonDisabled, setButtonDisabled] = useState('ture')
     const [disabledButtons, setDisabledButtons] = useState({});
+
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [count, setCount] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
+    // console.log(itemsPerPage, count, currentPage);
+
+    // const [buttonDisabled, setButtonDisabled] = useState('ture')
 
     const handleFeedbackSelect = (idx, e) => {
         const value = e.target.value;
@@ -39,12 +44,10 @@ const Comments = () => {
     }
 
 
-
-
-
     const { id } = useParams()
 
     const axiosCommon = useAxiosCommon()
+    const axiosSecure = useAxiosSecure()
 
     const {
         data: comments = [],
@@ -53,11 +56,20 @@ const Comments = () => {
     } = useQuery({
         queryKey: ['comments', id],
         queryFn: async () => {
-            const { data } = await axiosCommon.get(`/comments/${id}`)
+            const { data } = await axiosSecure.get(`/comments/${id}?page=${currentPage}&size=${itemsPerPage}`)
             // console.log(data);
             return data
         },
     })
+
+    useEffect(() => {
+        const getCount = async () => {
+            const { data } = await axiosCommon(`/post-comments-count?id=${id}`)
+            setCount(data.count)
+            // console.log(data.count);
+        }
+        getCount()
+    }, [axiosCommon])
 
     const feedbackObj = { feedback }
 
@@ -104,22 +116,27 @@ const Comments = () => {
     const [selectedValues, setSelectedValues] = useState({});
 
 
+    const numberOfPages = Math.ceil(count / itemsPerPage)
+    const pages = [...Array(numberOfPages).keys()].map(element => element + 1)
 
+    const handlePaginationButton = value => {
+        // console.log(value)
+        setCurrentPage(value)
+    }
 
 
     return (
-        <div>
+        <div className="w-[90%] mx-auto">
             <div className='w-[90%] mx-auto'>
-                <div className='w-[80%] mx-auto mt-10 py-5 mb-5'>
-                    <p className='text-center pb-4 text-2xl font-semibold'>Comments</p>
-                    {/* <p className='text-center'>Expand your literary universe by adding a new book to your library's collection</p> */}
-                </div>
+                <SectionTitle
+                    title={'Comments'}
+                ></SectionTitle>
             </div>
             <div className="">
                 {/* table upper part  */}
 
                 <div className="overflow-x-auto">
-                    <table className="table md:table-xs">
+                    <table className="table table-xs md:table-md">
                         {/* head */}
                         <thead>
                             <tr>
@@ -138,10 +155,10 @@ const Comments = () => {
                                     {/* row 1 */}
                                     <tr>
 
-                                        <td className="text-xl py-10">
+                                        <td className="text-xs md:text-base">
                                             {item.email}
                                         </td>
-                                        <td className="text-xl py-10">
+                                        <td className="text-base">
                                             {/* {item.comment} */}
 
                                             {
@@ -151,14 +168,17 @@ const Comments = () => {
                                                         <span>{item.comment}</span>
                                                     </div>
                                                     :
-                                                    <div>{item.comment.substring(0, 20)}...
-                                                        <button
-                                                            onClick={openModal}
-                                                            className="text-blue-500 hover:underline ml-1"
-                                                        // onClick={handleReadMoreClick}
-                                                        >
-                                                            Read More
-                                                        </button>
+                                                    <div>
+                                                        <div className="flex">
+                                                            <p className="text-xs md:text-base">{item.comment.substring(0, 20)}...</p>
+                                                            <button
+                                                                onClick={openModal}
+                                                                className="text-blue-500 text-xs md:text-base hover:underline ml-1"
+                                                            // onClick={handleReadMoreClick}
+                                                            >
+                                                                Read More
+                                                            </button>
+                                                        </div>
                                                         <Modal
                                                             isOpen={modalIsOpen}
                                                             onAfterOpen={afterOpenModal}
@@ -177,7 +197,7 @@ const Comments = () => {
                                         <th>
 
                                             <div>
-                                                <label className="form-control w-full max-w-xs">
+                                                <label className="form-control w-full h-12 -mt-4 max-w-xs">
                                                     <div className="label">
                                                         <span className="label-text"></span>
                                                     </div>
@@ -185,14 +205,14 @@ const Comments = () => {
                                                         // onChange={handleFeedbackSelect} 
                                                         onChange={(event) => handleFeedbackSelect(idx, event)}
 
-                                                        className="input input-bordered w-full max-w-xs " name="" id="tag">
-                                                        <option value="">Select</option>
+                                                        className="input input-bordered w-auto max-w-xs text-xs md:text-base" name="" id="tag">
+                                                        <option className="max-w-xs text-xs" value="">Select</option>
 
-                                                        <option value="spam">Spam </option>
+                                                        <option className="max-w-xs text-xs" value="spam">Spam </option>
 
-                                                        <option value="violence">Violence</option>
+                                                        <option className="max-w-xs text-xs" value="violence">Violence</option>
 
-                                                        <option value="hate-speech">Hate Speech</option>
+                                                        <option className="max-w-xs text-xs" value="hate-speech">Hate Speech</option>
 
                                                     </select>
 
@@ -205,7 +225,7 @@ const Comments = () => {
                                                 onClick={() => { handleReport(item._id, idx) }}
                                                 // disabled={buttonDisabled}
                                                 disabled={!selectedValues[idx] || disabledButtons[idx]}
-                                                className="btn btn-neutral my-5 lg:my-0">Report</button>
+                                                className="btn btn-sm btn-neutral  lg:my-0">Report</button>
                                         </th>
                                     </tr>
                                 </tbody>
@@ -218,6 +238,33 @@ const Comments = () => {
                     </table>
                 </div>
 
+            </div>
+            {/* pagination  */}
+            <div className='flex justify-center mt-12'>
+
+                {/* Numbers */}
+                {pages.map(btnNum => (
+                    <button
+                        onClick={() => handlePaginationButton(btnNum)}
+                        key={btnNum}
+                        className={`hidden ${currentPage === btnNum ? 'bg-blue-500 text-white' : ''
+                            } px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
+                    >
+                        {btnNum}
+                    </button>
+                ))}
+            </div>
+            <div className="w-full text-gray-500 flex justify-end items-center dark:text-gray-400">
+                {count > 0 ? (
+                    <span className="mr-2 font-medium text-gray-700 dark:text-gray-100">
+                        {currentPage * 10 - 9} - {Math.min(currentPage * 10, count)}
+                    </span>
+                ) : (
+                    <span className="mr-2 font-medium text-gray-700 dark:text-gray-100">
+                        0
+                    </span>
+                )}
+                of {count} records
             </div>
 
         </div>

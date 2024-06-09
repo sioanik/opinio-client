@@ -1,11 +1,32 @@
 import { Link, useNavigate } from "react-router-dom";
+import useAxiosCommon from "../../../hooks/useAxiosCommon";
+import { useQuery } from "@tanstack/react-query";
 
 const PostsCard = ({ item }) => {
     const navigate = useNavigate()
     const handleClick = () => {
         navigate(`/post/${item._id}`)
     }
-    // console.log(item);
+console.log(item._id);
+
+    const axiosCommon = useAxiosCommon()
+
+    const {
+        data: commentsCount = [],
+        isLoading,
+        refetch,
+    } = useQuery({
+        queryKey: ['commentscount', item._id],
+        queryFn: async () => {
+            const { data } = await axiosCommon.get(`/comments/${item._id}`)
+            console.log(data);
+            return data
+        },
+    })
+
+
+
+    console.log(commentsCount.length);
     return (
         <div>
             <div onClick={handleClick} className="my-6 w-full md:w-[650px] lg:w-[800px] px-8 py-4 bg-slate-100 rounded-lg shadow-md dark:bg-gray-800">
@@ -28,6 +49,10 @@ const PostsCard = ({ item }) => {
 
                 <div className="flex flex-row-reverse items-center justify-between mt-4">
                     {/* <Link to={`/post/${item._id}`}><button className="btn btn-info">View Post</button></Link> */}
+                    <div className=" flex justify-around items-center gap-5">
+                        <p>{item.upvote + item.upvote} Votes</p>
+                        <p>{commentsCount.length} Comments</p>
+                    </div>
 
                     <div className="flex items-center">
                         <img className="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block" src={item.author_image} alt="avatar" />

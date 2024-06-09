@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 
-const Comments = ({id, postTitle}) => {
+const CommentField = ({id, postTitle}) => {
 
     const axiosCommon = useAxiosCommon();
     const { user } = useAuth()
@@ -104,4 +104,4 @@ const Comments = ({id, postTitle}) => {
     );
 };
 
-export default Comments;
+export default CommentField;

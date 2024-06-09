@@ -13,8 +13,8 @@ import {
     XIcon,
 
 } from "react-share";
-import Comments from "../../components/PostDetails/Comments";
 import useAuth from "../../hooks/useAuth";
+import CommentField from "../../components/PostDetails/CommentField";
 
 
 
@@ -97,7 +97,8 @@ const PostDetails = () => {
                     }
                 }))
     }
-    const shareUrl = `${import.meta.env.VITE_API_URL}/post/${id}`;
+    const shareUrl = `https://project-nomadnest.web.app/post/${id}`;
+    // const shareUrl = `${import.meta.env.VITE_API_URL}/post/${id}`;
     // const shareUrl = `http://github.com`;
     const title = `${post.post_title}`
 
@@ -121,48 +122,50 @@ const PostDetails = () => {
                             <span className="mx-1 text-xs text-gray-600 dark:text-gray-300">{new Date(post.post_time).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                         </div>
                     </div>
-                    <div className="border-2 rounded-xl border-slate-300 bg-slate-100 py-4 flex items-center justify-around mt-10">
-                        <div className="flex gap-8">
-                            <button onClick={handleUpVote} className="btn  btn-success text-white  btn-sm"><FaThumbsUp /></button>
-                            <button onClick={handleDownVote} className="btn text-white btn-error btn-sm"><FaThumbsDown /></button>
-                        </div>
-                        <div>
-                            <div className="flex mt-1 gap-8 items-center justify-between">
-                                <div className="">
-                                    <FacebookShareButton disabled={!user} url={shareUrl} className="">
+                    <div className="flex items-center justify-center">
+                        <div className="w-4/5 0 py-4 flex items-center justify-between px-4 mt-4">
+                            <div className="flex gap-2 md:gap-8">
+                                <button onClick={handleUpVote} className="btn btn-success text-white  btn-sm"><FaThumbsUp /></button>
+                                <button onClick={handleDownVote} className="btn text-white btn-error btn-sm"><FaThumbsDown /></button>
+                            </div>
+                            <div>
+                                <div className="flex mt-1 gap-2 md:gap-8 items-center justify-between">
+                                    <div className="">
+                                        <FacebookShareButton disabled={!user} url={shareUrl} className="">
 
-                                        <FacebookIcon size={24} round />
-                                    </FacebookShareButton>
-                                </div>
-                                <div className="">
-                                    <RedditShareButton
-                                        url={shareUrl}
-                                        title={title}
-                                        windowWidth={660}
-                                        windowHeight={460}
-                                        disabled={!user}
-                                        className=""
-                                    >
-                                        <RedditIcon size={24} round />
-                                    </RedditShareButton>
+                                            <FacebookIcon size={24} round />
+                                        </FacebookShareButton>
+                                    </div>
+                                    <div className="">
+                                        <RedditShareButton
+                                            url={shareUrl}
+                                            title={title}
+                                            windowWidth={660}
+                                            windowHeight={460}
+                                            disabled={!user}
+                                            className=""
+                                        >
+                                            <RedditIcon size={24} round />
+                                        </RedditShareButton>
 
 
-                                </div>
-                                <div className="">
-                                    <TwitterShareButton
-                                        url={shareUrl}
-                                        title={title}
-                                        className=""
-                                        disabled={!user}
-                                    >
-                                        <XIcon size={24} round />
-                                    </TwitterShareButton>
+                                    </div>
+                                    <div className="">
+                                        <TwitterShareButton
+                                            url={shareUrl}
+                                            title={title}
+                                            className=""
+                                            disabled={!user}
+                                        >
+                                            <XIcon size={24} round />
+                                        </TwitterShareButton>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="mt-10">
-                        <Comments id={id} postTitle={post.post_title}></Comments>
+                    <div className="mt-4">
+                        <CommentField id={id} postTitle={post.post_title}></CommentField>
 
                     </div>
                 </div>

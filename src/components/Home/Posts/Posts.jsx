@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const Posts = ({ searchValue, currentPage, setCurrentPage }) => {
     // New try ---------------------------------------
     const axiosCommon = useAxiosCommon()
-    const [itemsPerPage, setItemsPerPage] = useState(4)
+    const [itemsPerPage, setItemsPerPage] = useState(5)
     const [count, setCount] = useState(0)
     const [posts, setPosts] = useState([])
     // const [currentPage, setCurrentPage] = useState(1)

@@ -148,7 +148,16 @@ const MyPosts = () => {
                 ))}
             </div>
             <div className="w-full text-gray-500 flex justify-end items-center dark:text-gray-400">
-                <span className=" mr-2 font-medium text-gray-700 dark:text-gray-100">{currentPage * 10 - 9} - {Math.min(currentPage * 10, count)}</span> of {count} records
+                {count > 0 ? (
+                    <span className="mr-2 font-medium text-gray-700 dark:text-gray-100">
+                        {currentPage * 10 - 9} - {Math.min(currentPage * 10, count)}
+                    </span>
+                ) : (
+                    <span className="mr-2 font-medium text-gray-700 dark:text-gray-100">
+                        0
+                    </span>
+                )}
+                of {count} records
             </div>
 
         </div>
