@@ -31,10 +31,10 @@ const AuthProvider = ({ children }) => {
 
     const logOut = async () => {
         setLoading(true)
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
-            withCredentials: true,
-        })
-        console.log(response);
+        // const response = await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
+        //     withCredentials: true,
+        // })
+        // console.log(response);
         return signOut(auth)
     }
 
@@ -46,14 +46,14 @@ const AuthProvider = ({ children }) => {
     }
 
     // Get token from server
-    const getToken = async (email) => {
-        const { data } = await axios.post(
-            `${import.meta.env.VITE_API_URL}/jwt`,
-            { email },
-            { withCredentials: true }
-        )
-        return data
-    }
+    // const getToken = async (email) => {
+    //     const { data } = await axios.post(
+    //         `${import.meta.env.VITE_API_URL}/jwt`,
+    //         { email },
+    //         { withCredentials: true }
+    //     )
+    //     return data
+    // }
 
     // const saveUser = async user => {
     //     const currentUser = {
@@ -70,28 +70,71 @@ const AuthProvider = ({ children }) => {
     // }
 
 
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, currentUser => {
+    //         setUser(currentUser)
+    //         if (currentUser) {
+    //             getToken(currentUser.email)
+    //             .then(()=>{
+    //                 setLoading(false)
+    //             })
+    //             // console.log(currentUser);
+    //             // saveUser(currentUser)
+    //             // setLoading(false)
+    //         }
+    //         else {
+    //             axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
+    //                 withCredentials: true,
+    //             })
+    //             .then(res =>{
+    //                 console.log(res.data);
+    //             })
+    //         }
+    //     })
+    //     return () => {
+    //         return unsubscribe()
+    //     }
+    // }, [])
+
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser)
+        const unmount = onAuthStateChanged(auth, (currentUser) => {
+            
+            const loggedUser = { email: currentUser?.email }
             if (currentUser) {
-                getToken(currentUser.email)
                 // console.log(currentUser);
-                // saveUser(currentUser)
-                setLoading(false)
+
+                // if user exists then issue a token 
+                axios.post(`${import.meta.env.VITE_API_URL}/jwt`, loggedUser, { withCredentials: true })
+                    .then(res => {
+                        setUser(currentUser)
+                        setLoading(false)
+                        // console.log('token response', res.data);
+                    })
+
             }
             else {
-                axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
-                    withCredentials: true,
-                })
-                .then(res =>{
-                    console.log(res.data);
-                })
+                axios.post(`${import.meta.env.VITE_API_URL}/logout`, loggedUser, { withCredentials: true })
+                    .then(res => {
+                        setUser(null)
+                        setLoading(false)
+
+
+                        // console.log(res.data);
+                    })
+
+                // setUser(null)
             }
-        })
+            // setLoading(false)
+            // console.log(currentUser);
+
+        });
+
         return () => {
-            return unsubscribe()
+            unmount()
         }
     }, [])
+
 
 
     const authInfo = {
