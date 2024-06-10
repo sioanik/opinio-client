@@ -27,7 +27,7 @@ const Profile = () => {
         },
     })
 
-    console.log(myThreePosts)
+    // console.log(myThreePosts)
 
     if (isLoading || loading) return <LoadingSpinner></LoadingSpinner>
     return (

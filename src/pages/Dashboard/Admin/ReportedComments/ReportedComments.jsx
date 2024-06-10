@@ -26,7 +26,7 @@ const ReportedComments = () => {
         queryKey: ['comments', user?.email, axiosSecure, currentPage, itemsPerPage],
         queryFn: async () => {
             const { data } = await axiosSecure(`/comments?page=${currentPage}&size=${itemsPerPage}`)
-            console.log(data);
+            // console.log(data);
             return data
         },
     })

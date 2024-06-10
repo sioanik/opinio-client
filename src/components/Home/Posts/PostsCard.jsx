@@ -8,7 +8,7 @@ const PostsCard = ({ item }) => {
     const handleClick = () => {
         navigate(`/post/${item._id}`)
     }
-console.log(item._id);
+// console.log(item._id);
 
     const axiosCommon = useAxiosCommon()
 
@@ -20,14 +20,14 @@ console.log(item._id);
         queryKey: ['commentscount', item._id],
         queryFn: async () => {
             const { data } = await axiosCommon.get(`/comments/${item._id}`)
-            console.log(data);
+            // console.log(data);
             return data
         },
     })
 
 
 
-    console.log(commentsCount.length);
+    // console.log(commentsCount.length);
     return (
         <div>
             <div onClick={handleClick} className="my-6 w-full md:w-[650px] lg:w-[800px] px-8 py-4 bg-slate-100 rounded-lg shadow-md dark:bg-gray-800">
