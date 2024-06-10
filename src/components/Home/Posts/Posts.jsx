@@ -36,7 +36,7 @@ const Posts = ({ searchValue, currentPage, setCurrentPage }) => {
         queryFn: async () => {
             const { data } = await axiosCommon(`/posts-count?search=${searchValue}`)
             // setCount(data.count)
-            console.log(data.count);
+            // console.log(data.count);
             return data.count
         },
     })

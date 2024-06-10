@@ -26,7 +26,7 @@ const MyPosts = () => {
         },
     })
 
-    const {data : count = 0} = useQuery({
+    const {data : count = ''} = useQuery({
         queryKey: ['my-posts-count', axiosSecure],
         queryFn: async () => {
             const { data } = await axiosSecure(`/my-posts-count?email=${user?.email}`)

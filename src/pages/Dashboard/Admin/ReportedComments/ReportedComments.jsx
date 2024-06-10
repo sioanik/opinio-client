@@ -31,7 +31,7 @@ const ReportedComments = () => {
         },
     })
 
-    const {data : count = 0} = useQuery({
+    const {data : count = ''} = useQuery({
         queryKey: ['comments-count'],
         queryFn: async () => {
             const { data } = await axiosSecure(`/comments-count`)
