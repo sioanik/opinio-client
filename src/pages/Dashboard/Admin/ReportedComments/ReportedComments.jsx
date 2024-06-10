@@ -172,12 +172,12 @@ const ReportedComments = () => {
                                             <th>
                                                 <button
                                                     onClick={() => { warnUser(item.email) }}
-                                                    className="btn btn-sm md:btn-lg btn-error my-5 lg:my-0  ">Warn User!</button>
+                                                    className="text-xs btn btn-md  btn-error my-5 lg:my-0  ">Warn User!</button>
                                             </th>
                                             <th>
                                                 <button
                                                     onClick={() => { removeWarning(item.email) }}
-                                                    className="btn btn-sm md:btn-lg btn-success my-5 lg:my-0  ">Remove Warning</button>
+                                                    className="text-xs btn btn-md  btn-success my-5 lg:my-0  ">Remove Warning</button>
                                             </th>
                                         </tr>
                                     </tbody>

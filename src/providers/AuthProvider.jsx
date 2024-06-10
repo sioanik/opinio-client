@@ -31,9 +31,10 @@ const AuthProvider = ({ children }) => {
 
     const logOut = async () => {
         setLoading(true)
-        await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
             withCredentials: true,
         })
+        console.log(response);
         return signOut(auth)
     }
 
@@ -78,12 +79,20 @@ const AuthProvider = ({ children }) => {
                 // saveUser(currentUser)
                 setLoading(false)
             }
+            else {
+                axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
+                    withCredentials: true,
+                })
+                .then(res =>{
+                    console.log(res.data);
+                })
+            }
         })
         return () => {
             return unsubscribe()
         }
     }, [])
-    
+
 
     const authInfo = {
         user,

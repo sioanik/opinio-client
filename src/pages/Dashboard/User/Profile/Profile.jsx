@@ -91,7 +91,7 @@ const Profile = () => {
 
                     </div>
                 </div>
-                {!!myThreePosts && <SectionTitle
+                {myThreePosts.length > 0 && <SectionTitle
                     title={'Recent Posts'}
                 ></SectionTitle>}
                 <div className="w-[80%]">
