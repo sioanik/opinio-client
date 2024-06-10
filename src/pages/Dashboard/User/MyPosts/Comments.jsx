@@ -41,6 +41,12 @@ const Comments = () => {
             [idx]: value,
         }));
         setFeedback(value)
+
+        // added
+        setDisabledButtons(prevDisabledButtons => ({
+            ...prevDisabledButtons,
+            [idx]: false,
+        }))
     }
 
 

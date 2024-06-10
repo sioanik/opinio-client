@@ -91,9 +91,9 @@ const Profile = () => {
 
                     </div>
                 </div>
-                <SectionTitle
+                {!!myThreePosts && <SectionTitle
                     title={'Recent Posts'}
-                ></SectionTitle>
+                ></SectionTitle>}
                 <div className="w-[80%]">
                     {/* posts  */}
                     {

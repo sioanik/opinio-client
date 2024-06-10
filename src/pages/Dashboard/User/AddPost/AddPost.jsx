@@ -145,7 +145,9 @@ const AddPost = () => {
                     (<div className="flex flex-col items-center justify-center">
                         <SectionTitle
                             title={'Subscribe!'}
+                            // description={'You have reached the limit of 5 posts in your current plan. Upgrade now to add more posts.'}
                         ></SectionTitle>
+                        <p className="mb-10 text-center ">You have reached the limit of 5 posts in your current plan. <br /> Upgrade now to add more posts.</p>
                         <Link to={`/dashboard/payment/${fee}`}>
                             {/* <Link to={'/dashboard/cart/'}> */}
                             <button className="my-auto btn btn-neutral">Become a Member</button>
