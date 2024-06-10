@@ -31,11 +31,12 @@ const Posts = ({ searchValue, currentPage, setCurrentPage }) => {
     })
 
     
-    const {data : count = 0} = useQuery({
-        queryKey: ['posts-count', axiosCommon],
+    const {data : count = ''} = useQuery({
+        queryKey: ['posts-count', axiosCommon, searchValue],
         queryFn: async () => {
             const { data } = await axiosCommon(`/posts-count?search=${searchValue}`)
             // setCount(data.count)
+            console.log(data.count);
             return data.count
         },
     })
