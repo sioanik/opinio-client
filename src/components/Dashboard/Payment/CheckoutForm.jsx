@@ -4,8 +4,9 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
-const CheckoutForm = ({ totalPrice }) => {
+const CheckoutForm = () => {
     // console.log(totalPrice);
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('')
@@ -16,7 +17,16 @@ const CheckoutForm = ({ totalPrice }) => {
     const elements = useElements();
     const navigate = useNavigate();
 
-    // const totalPrice = 100
+    // const {data : totalPrice = 0} = useQuery({
+    //     queryKey: ['posts-count', axiosSecure],
+    //     queryFn: async () => {
+    //         const { data } = await axiosSecure(`/membership?plan=${Gold}`)
+    //         // setCount(data.count)
+    //         return data.count
+    //     },
+    // })
+
+    const totalPrice = 100
 
     useEffect(() => {
         if (totalPrice > 0) {

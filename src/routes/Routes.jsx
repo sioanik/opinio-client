@@ -38,6 +38,13 @@ export const router = createBrowserRouter([
                 path: '/post/:id',
                 element: <PostDetails></PostDetails>,
             },
+            {
+                path: '/payment',
+                element:
+                    (<PrivateRoute>
+                        <Payment></Payment>
+                    </PrivateRoute>)
+            },
         ],
     },
     {
@@ -55,13 +62,13 @@ export const router = createBrowserRouter([
                         <Profile></Profile>
                     </PrivateRoute>)
             },
-            {
-                path: 'payment/:fee',
-                element:
-                    (<PrivateRoute>
-                        <Payment></Payment>
-                    </PrivateRoute>)
-            },
+            // {
+            //     path: 'payment/:fee',
+            //     element:
+            //         (<PrivateRoute>
+            //             <Payment></Payment>
+            //         </PrivateRoute>)
+            // },
             {
                 path: 'add-post',
                 element: (

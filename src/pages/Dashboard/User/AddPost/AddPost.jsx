@@ -85,6 +85,7 @@ const AddPost = () => {
         axiosSecure.post('/posts', newPost)
         .then(res => {
             if (res.data.insertedId) {
+                refetch()
                 Swal.fire({
                     title: 'Success!',
                     text: 'Post added successfully',
@@ -134,7 +135,7 @@ const AddPost = () => {
 
 
     // console.log(tags);
-    const fee = 100
+    // const fee = 100
 
     return (
         <div className="">
@@ -148,7 +149,7 @@ const AddPost = () => {
                             // description={'You have reached the limit of 5 posts in your current plan. Upgrade now to add more posts.'}
                         ></SectionTitle>
                         <p className="mb-10 text-center ">You have reached the limit of 5 posts in your current plan. <br /> Upgrade now to add more posts.</p>
-                        <Link to={`/dashboard/payment/${fee}`}>
+                        <Link to={`/payment`}>
                             {/* <Link to={'/dashboard/cart/'}> */}
                             <button className="my-auto btn btn-neutral">Become a Member</button>
                         </Link>

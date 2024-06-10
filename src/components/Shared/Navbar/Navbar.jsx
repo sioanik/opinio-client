@@ -37,7 +37,7 @@ const Navbar = () => {
 
     const links = <>
         <li><NavLink to={'/'} >Home</NavLink></li>
-        {user && <li><NavLink to={'/dashboard/payment/100'} >Membership</NavLink></li>}
+        <li><NavLink to={'/payment'} >Membership</NavLink></li>
 
     </>
     const links2 = <>
@@ -80,7 +80,7 @@ const Navbar = () => {
 
                     </ul> */}
                     {
-                        ann.length > 0 && !!user &&
+                        ann.length > 0 &&
                         <div className="mr-6 flex items-center gap-2">
                             <p className="text-2xl"><HiSpeakerphone /></p>
                             <div className="badge badge-neutral">{ann.length}</div>

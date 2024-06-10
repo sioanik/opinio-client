@@ -13,12 +13,12 @@ const Payment = () => {
     const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK);
 
     return (
-        <div className="">
+        <div className="w-[80%] flex flex-col items-center justify-center mx-auto">
             <SectionTitle
                 title={'Membership Packages'}
             ></SectionTitle>
-            <div className="mb-20">
-                <div className="flex justify-between">
+            <div className="">
+                <div className="flex justify-around">
                     <div>
                         <p className="text-xl font-bold pb-4">Membership Package</p>
                         <p className="text-xl">Gold</p>
@@ -32,9 +32,9 @@ const Payment = () => {
             <SectionTitle
                 title={'Pay with Card'}
             ></SectionTitle>
-            <div className="min-w-96">
+            <div className="min-w-[420px] p-4 rounded-xl border-2">
                 <Elements stripe={stripePromise}>
-                    <CheckoutForm totalPrice={totalPrice}></CheckoutForm>
+                    <CheckoutForm></CheckoutForm>
                 </Elements>
             </div>
         </div>
