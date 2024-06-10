@@ -15,6 +15,7 @@ import {
 } from "react-share";
 import useAuth from "../../hooks/useAuth";
 import CommentField from "../../components/PostDetails/CommentField";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 
@@ -27,6 +28,7 @@ const PostDetails = () => {
     // console.log(id);
 
     const axiosCommon = useAxiosCommon()
+    const axiosSecure = useAxiosSecure()
 
     const {
         data: post = {},
@@ -54,7 +56,7 @@ const PostDetails = () => {
         }
         else (
 
-            await axiosCommon.put(`/upvote/${id}`)
+            await axiosSecure.put(`/upvote/${id}`)
                 .then(res => {
                     // console.log(res.data)
                     if (res.data.modifiedCount > 0) {
@@ -83,7 +85,7 @@ const PostDetails = () => {
             });
         } else
 
-            (await axiosCommon.put(`/downvote/${id}`)
+            (await axiosSecure.put(`/downvote/${id}`)
                 .then(res => {
                     // console.log(res.data)
                     if (res.data.modifiedCount > 0) {

@@ -18,11 +18,11 @@ const Home = () => {
 
     const axiosCommon = useAxiosCommon()
 
-    useEffect(() => {
-        axiosCommon(`/tag-posts?search=${searchValue}`)
-            .then(res => setPosts(res.data))
+    // useEffect(() => {
+    //     axiosCommon(`/tag-posts?search=${searchValue}`)
+    //         .then(res => setPosts(res.data))
 
-    }, [searchValue])
+    // }, [searchValue])
 
     // console.log(posts);
 

@@ -82,34 +82,54 @@ const AddPost = () => {
         // console.table(newPost);
 
 
-        fetch(`${import.meta.env.VITE_API_URL}/posts`, {
-            credentials: 'include',
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newPost),
+        axiosSecure.post('/posts', newPost)
+        .then(res => {
+            if (res.data.insertedId) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Post added successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Close'
+                })
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something went wrong!',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
         })
-            .then(res => res.json())
-            .then(data => {
-                // console.log(data);
-                if (data.insertedId) {
-                    refetch()
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Post added successfully',
-                        icon: 'success',
-                        confirmButtonText: 'Close'
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Something went wrong!',
-                        icon: 'error',
-                        confirmButtonText: 'Close'
-                    })
-                }
-            })
+
+
+        // fetch(`${import.meta.env.VITE_API_URL}/posts`, {
+        //     credentials: 'include',
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(newPost),
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         // console.log(data);
+        //         if (data.insertedId) {
+        //             refetch()
+        //             Swal.fire({
+        //                 title: 'Success!',
+        //                 text: 'Post added successfully',
+        //                 icon: 'success',
+        //                 confirmButtonText: 'Close'
+        //             })
+        //         } else {
+        //             Swal.fire({
+        //                 title: 'Error!',
+        //                 text: 'Something went wrong!',
+        //                 icon: 'error',
+        //                 confirmButtonText: 'Close'
+        //             })
+        //         }
+        //     })
     }
 
 

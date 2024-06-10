@@ -37,7 +37,7 @@ const Navbar = () => {
 
     const links = <>
         <li><NavLink to={'/'} >Home</NavLink></li>
-        <li><NavLink to={'/dashboard/payment/100'} >Membership</NavLink></li>
+        {user && <li><NavLink to={'/dashboard/payment/100'} >Membership</NavLink></li>}
 
     </>
     const links2 = <>

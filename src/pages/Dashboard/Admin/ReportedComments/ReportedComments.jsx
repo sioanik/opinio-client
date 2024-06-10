@@ -14,7 +14,7 @@ const ReportedComments = () => {
 
 
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     // console.log(itemsPerPage, count, currentPage);
 
@@ -31,14 +31,23 @@ const ReportedComments = () => {
         },
     })
 
-    useEffect(() => {
-        const getCount = async () => {
-            const { data } = await axiosCommon(`/comments-count`)
-            setCount(data.count)
-            // console.log(data.count);
-        }
-        getCount()
-    }, [axiosCommon])
+    const {data : count = 0} = useQuery({
+        queryKey: ['comments-count'],
+        queryFn: async () => {
+            const { data } = await axiosSecure(`/comments-count`)
+            // setCount(data.count)
+            return data.count
+        },
+    })
+
+    // useEffect(() => {
+    //     const getCount = async () => {
+    //         const { data } = await axiosCommon(`/comments-count`)
+    //         setCount(data.count)
+    //         // console.log(data.count);
+    //     }
+    //     getCount()
+    // }, [axiosCommon])
 
 
 

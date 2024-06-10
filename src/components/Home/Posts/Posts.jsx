@@ -2,38 +2,66 @@ import useAxiosCommon from "../../../hooks/useAxiosCommon";
 import SectionTitle from "../../Comments/SectionTitle";
 import PostsCard from "./PostsCard";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 
 const Posts = ({ searchValue, currentPage, setCurrentPage }) => {
     // New try ---------------------------------------
     const axiosCommon = useAxiosCommon()
     const [itemsPerPage, setItemsPerPage] = useState(5)
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
     const [posts, setPosts] = useState([])
     // const [currentPage, setCurrentPage] = useState(1)
     const [sort, setSort] = useState(false)
     // console.table(posts);
 
 
-    useEffect(() => {
-        const getData = async () => {
-            const { data } = await axiosCommon(
-                `/all-posts?page=${currentPage}&size=${itemsPerPage}&sort=${sort}&search=${searchValue}`
-            )
+    const {
+        data: allPosts = [],
+        isLoading,
+        refetch,
+    } = useQuery({
+        queryKey: ['all-posts', axiosCommon, currentPage, itemsPerPage, searchValue, sort],
+        queryFn: async () => {
+            const { data } = await axiosCommon(`/all-posts?page=${currentPage}&size=${itemsPerPage}&sort=${sort}&search=${searchValue}`)
+            // console.log(data);
             setPosts(data)
-        }
-        getData()
-    }, [axiosCommon, currentPage, itemsPerPage, searchValue, sort])
+            return data
+        },
+    })
 
-    useEffect(() => {
-        const getCount = async () => {
-            const { data } = await axiosCommon(
-                `/posts-count?search=${searchValue}`
-            )
-            setCount(data.count)
-            // console.log(data.count);
-        }
-        getCount()
-    }, [axiosCommon, searchValue])
+    
+    const {data : count = 0} = useQuery({
+        queryKey: ['posts-count', axiosCommon],
+        queryFn: async () => {
+            const { data } = await axiosCommon(`/posts-count?search=${searchValue}`)
+            // setCount(data.count)
+            return data.count
+        },
+    })
+
+
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const { data } = await axiosCommon(
+    //             `/all-posts?page=${currentPage}&size=${itemsPerPage}&sort=${sort}&search=${searchValue}`
+    //         )
+    //         setPosts(data)
+    //     }
+    //     getData()
+    // }, [axiosCommon, currentPage, itemsPerPage, searchValue, sort])
+
+    // useEffect(() => {
+    //     const getCount = async () => {
+    //         const { data } = await axiosCommon(
+    //             `/posts-count?search=${searchValue}`
+    //         )
+    //         setCount(data.count)
+    //         // console.log(data.count);
+    //     }
+    //     getCount()
+    // }, [axiosCommon, searchValue])
+
 
     // old code ------------------------------------
 

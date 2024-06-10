@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
-import useAxiosCommon from "../../hooks/useAxiosCommon";
+import useAxiosCommon from "../../../../hooks/useAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 import Modal from 'react-modal';
-import ReadMoreModal from "../../components/Comments/ReadMoreModal";
-import SectionTitle from "../../components/Comments/SectionTitle";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import ReadMoreModal from "../../../../components/Comments/ReadMoreModal";
+import SectionTitle from "../../../../components/Comments/SectionTitle";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const customStyles = {
     content: {
@@ -62,20 +62,29 @@ const Comments = () => {
         },
     })
 
-    useEffect(() => {
-        const getCount = async () => {
+    const {data} = useQuery({
+        queryKey: ['post-comments-count', id, axiosCommon],
+        queryFn: async () => {
             const { data } = await axiosCommon(`/post-comments-count?id=${id}`)
             setCount(data.count)
-            // console.log(data.count);
-        }
-        getCount()
-    }, [axiosCommon])
+            return data
+        },
+    })
+
+    // useEffect(() => {
+    //     const getCount = async () => {
+    //         const { data } = await axiosCommon(`/post-comments-count?id=${id}`)
+    //         setCount(data.count)
+    //         // console.log(data.count);
+    //     }
+    //     getCount()
+    // }, [axiosCommon])
 
     const feedbackObj = { feedback }
 
     const handleReport = (id, idx) => {
         // console.log(feedback);
-        axiosCommon.patch(`/comments/${id}`, feedbackObj)
+        axiosSecure.patch(`/comments/${id}`, feedbackObj)
             .then(res => {
 
                 // console.log(res.data)
@@ -84,6 +93,15 @@ const Comments = () => {
                         position: "top-end",
                         icon: "success",
                         title: `Reported to Admin!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else{
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: `Already Reported!`,
                         showConfirmButton: false,
                         timer: 1500
                     });

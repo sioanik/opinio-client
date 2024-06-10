@@ -2,8 +2,8 @@
 
 const ReadMoreModal = ({text}) => {
     return (
-        <div>
-            <p>{text}</p>
+        <div className="">
+            <p className="p-10">{text}</p>
         </div>
     );
 };

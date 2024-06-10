@@ -1,9 +1,11 @@
 import Swal from "sweetalert2";
 import useAuth from "../../../../hooks/useAuth";
 import SectionTitle from "../../../../components/Comments/SectionTitle";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 const MakeAnnouncement = () => {
     const { user } = useAuth()
     // console.log(user.photoURL);
+    const axiosSecure = useAxiosSecure()
 
     const author_name = user.displayName
     const author_email = user.email
@@ -22,35 +24,56 @@ const MakeAnnouncement = () => {
         // console.log(newPost);
 
 
-        fetch(`${import.meta.env.VITE_API_URL}/announcements`, {
-            credentials: 'include',
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newPost),
+        axiosSecure.post('/announcements', newPost)
+        .then(res => {
+            if (res.data.insertedId) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Announcement added successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Close'
+                })
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something went wrong!',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                })
+            }
         })
-            .then(res => res.json())
-            .then(data => {
-                // console.log(data);
-                if (data.insertedId) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Announcement added successfully',
-                        icon: 'success',
-                        confirmButtonText: 'Close'
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Something went wrong!',
-                        icon: 'error',
-                        confirmButtonText: 'Close'
-                    })
-                }
-            })
+}
 
-    }
+
+    //     fetch(`${import.meta.env.VITE_API_URL}/announcements`, {
+    //         credentials: 'include',
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(newPost),
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             // console.log(data);
+    //             if (data.insertedId) {
+    //                 Swal.fire({
+    //                     title: 'Success!',
+    //                     text: 'Announcement added successfully',
+    //                     icon: 'success',
+    //                     confirmButtonText: 'Close'
+    //                 })
+    //             } else {
+    //                 Swal.fire({
+    //                     title: 'Error!',
+    //                     text: 'Something went wrong!',
+    //                     icon: 'error',
+    //                     confirmButtonText: 'Close'
+    //                 })
+    //             }
+    //         })
+
+    // }
 
 
 

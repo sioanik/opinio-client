@@ -26,14 +26,22 @@ const ManageUsers = () => {
         },
     })
 
-    useEffect(() => {
-        const getCount = async () => {
-            const { data } = await axiosCommon(`/users-count`)
+    // useEffect(() => {
+    //     const getCount = async () => {
+    //         const { data } = await axiosCommon(`/users-count`)
+    //         setCount(data.count)
+    //         // console.log(data.count);
+    //     }
+    //     getCount()
+    // }, [axiosCommon])
+
+    const {data} = useQuery({
+        queryKey: ['users-count', axiosSecure],
+        queryFn: async () => {
+            const { data } = await axiosSecure(`/users-count`)
             setCount(data.count)
-            // console.log(data.count);
-        }
-        getCount()
-    }, [axiosCommon])
+        },
+    })
 
 
     const handleMakeAdmin = user => {

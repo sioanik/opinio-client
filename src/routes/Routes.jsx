@@ -5,7 +5,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Dashboard from "../layouts/Dashboard";
-import Profile from "../pages/Dashboard/Common/Profile/Profile";
+import Profile from "../pages/Dashboard/User/Profile/Profile";
 import AddPost from "../pages/Dashboard/User/AddPost/AddPost";
 import MyPosts from "../pages/Dashboard/User/MyPosts/MyPosts";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers/ManageUsers";
@@ -13,13 +13,12 @@ import MakeAnnouncement from "../pages/Dashboard/Admin/MakeAnnouncement/MakeAnno
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
-import Comments from "../pages/Comments/Comments";
 import ReportedComments from "../pages/Dashboard/Admin/ReportedComments/ReportedComments";
 import PostDetails from "../pages/PostDetails/PostDetails";
 import Payment from "../components/Dashboard/Payment/Payment";
 import Cart from "../components/Dashboard/Payment/Cart";
-import UserHome from "../pages/Dashboard/User/UserHome/UserHome";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome/AdminHome";
+import Comments from "../pages/Dashboard/User/MyPosts/Comments";
 
 export const router = createBrowserRouter([
     {
@@ -63,15 +62,6 @@ export const router = createBrowserRouter([
                         <Payment></Payment>
                     </PrivateRoute>)
             },
-            // {
-            //     path: 'user-home',
-            //     element: (
-            //         <PrivateRoute>
-            //             <UserRoute>
-            //                 <UserHome></UserHome>
-            //             </UserRoute>
-            //         </PrivateRoute>)
-            // },
             {
                 path: 'add-post',
                 element: (

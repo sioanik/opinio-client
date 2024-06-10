@@ -10,7 +10,7 @@ const MyPosts = () => {
     const axiosSecure = useAxiosSecure()
 
     const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
 
     const {
@@ -26,15 +26,23 @@ const MyPosts = () => {
         },
     })
 
-
-    useEffect(() => {
-        const getCount = async () => {
+    const {data : count = 0} = useQuery({
+        queryKey: ['my-posts-count', axiosSecure],
+        queryFn: async () => {
             const { data } = await axiosSecure(`/my-posts-count?email=${user?.email}`)
-            setCount(data.count)
-            // console.log(data.count);
-        }
-        getCount()
-    }, [axiosSecure])
+            // setCount(data.count)
+            return data.count
+        },
+    })
+
+    // useEffect(() => {
+    //     const getCount = async () => {
+    //         const { data } = await axiosSecure(`/my-posts-count?email=${user?.email}`)
+    //         setCount(data.count)
+    //         // console.log(data.count);
+    //     }
+    //     getCount()
+    // }, [axiosSecure])
 
 
 
