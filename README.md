@@ -38,3 +38,26 @@
 
 - **User Warnings for Bad Comment:**
    - When a user reports a comment to the admin, admins can warn users for inappropriate behavior, which will be displayed on the user's profile. Admins can also remove warnings from user profiles when necessary.
+
+
+## Prerequisites
+
+Before running the project, make sure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v12.x or later)
+- [npm](https://www.npmjs.com/)
+
+## Installation
+
+To install the project dependencies, follow these steps:
+
+1. Open your command line interface (CLI).
+
+2. Navigate to the project folder:
+   cd path/to/your/project
+
+3. Install the dependencies using the following command:
+npm install
+
+4. Running the Project
+To start the project in development mode, use the following command:
+npm run dev
